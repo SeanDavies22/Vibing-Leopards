@@ -9,9 +9,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from AboutWindow import Ui_AboutWindow
 
 class Ui_MainWindow(object):
+
+    def openAboutWindow(self):
+        self.AboutWindow = QtWidgets.QDialog()
+        self.ui = Ui_AboutWindow()
+        self.ui.setupUi(self.AboutWindow)
+        self.AboutWindow.show()
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(974, 699)
@@ -52,6 +59,9 @@ class Ui_MainWindow(object):
         self.actionXML_2.setText(_translate("MainWindow", "XML"))
         self.actionJSON_2.setText(_translate("MainWindow", "JSON"))
         self.actionAbout_Program.setText(_translate("MainWindow", "About Program"))
+
+        # Opens the About Us tab if pressed in menu bar. 
+        self.actionAbout_Program.triggered.connect(self.openAboutWindow)
 
 
 if __name__ == "__main__":

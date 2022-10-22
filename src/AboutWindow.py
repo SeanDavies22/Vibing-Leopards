@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
         AboutWindow.setObjectName("AboutWindow")
-        AboutWindow.resize(400, 299)
+        AboutWindow.resize(600, 400)
         self.label = QtWidgets.QLabel(AboutWindow)
         self.label.setGeometry(QtCore.QRect(90, 0, 251, 51))
         font = QtGui.QFont()
