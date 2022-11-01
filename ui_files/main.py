@@ -14,13 +14,21 @@ class MainGUI(QtWidgets.QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.filePath = None
+        self.ui.inputFileButton.clicked.connect(self.getInputFile)
 
-        # Sample print text to console to see if input file button works. 
-        self.ui.inputFileButton.clicked.connect(self.printTextButtonClick)
-    
-    def printTextButtonClick(self):
-        print("Input file button working!")
-
+    def getInputFile(self):
+        options = QtWidgets.QFileDialog.Options()
+        options |= QtWidgets.QFileDialog.DontUseNativeDialog
+        file = QtWidgets.QFileDialog.getOpenFileName(
+            self, "QFileDialog.getOpenFileName()", "",
+                    "Nessus Scan (*.nessus);;XML(*.xml);;Python(*.py);;All Files (*)",
+                    options=options)
+        self.filePath = file[0]
+        self.ui.fileNameLabel.setText(self.filePath)
+        
+        # Temp print statement to see filepath provided. 
+        #print(self.filePath)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
