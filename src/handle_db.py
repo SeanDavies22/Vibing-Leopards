@@ -1,23 +1,23 @@
-# Basic code to show how handling the database is easy
+# Class to handle database operations
 # Casey Staples
-# Version .1
+# Version .2
 import sqlite3
 
-# connect to the database
-conn = sqlite3.connect('Cost_DB.db')
-print("This connected to the database successfully")
+class HandleDB():
+    def __init__(self):
+    
+            # Connect to the database
+            self.conn = sqlite3.connect('Cost_DB.DB')
+            # Create a cursor to send SQL commands to database
+            self.cursor = self.conn.cursor()
 
-# Create a cursor, this allows us to execute SQL commands
-cursor = conn.execute(
-    "SELECT id, vulnerability, risk_level, cost_hour, hours, recommendation from Vul_Cost")
-# Print the data from the database
-for row in cursor:
-    print("ID = ", row[0])
-    print("Vulnerability = ", row[1])
-    print("Risk ", row[2],)
-    print("Total Cost = ", round(row[3]*row[4], 2))
-    print("We recommend you", row[5], "\n")
+    def pull_vuln_data(self):
+        # Pull the vulnerability data from the database
+        vuln_data = []
+        for row in self.cursor.execute("SELECT vulnerability FROM Vul_Cost"):
+            vuln_data = self.cursor.fetchall()
+        return vuln_data
+        conn.close()
 
-print("Operation done successfully")
-# Close the connection like scanner.close() in java
-conn.close()
+HandleDB = HandleDB()
+print(HandleDB.pull_vuln_data())
