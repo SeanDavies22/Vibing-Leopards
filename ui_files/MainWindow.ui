@@ -6,35 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>800</height>
+    <width>875</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Cost-Benefit Analysis Tool</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="topScreenLabel">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>10</y>
-      <width>251</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>15</pointsize>
-      <weight>75</weight>
-      <italic>true</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Cost Jawn Analysis</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="inputFileButton">
     <property name="geometry">
      <rect>
@@ -45,20 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Select Jawn</string>
-    </property>
-   </widget>
-   <widget class="Line" name="line">
-    <property name="geometry">
-     <rect>
-      <x>7</x>
-      <y>60</y>
-      <width>941</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
+     <string>Select Input File</string>
     </property>
    </widget>
   </widget>
@@ -68,7 +34,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
+     <width>875</width>
      <height>21</height>
     </rect>
    </property>
