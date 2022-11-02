@@ -48,7 +48,7 @@ class Ui_MainWindow(object):
         self.futureButton1.setObjectName("futureButton1")
         self.verticalLayout.addWidget(self.futureButton1)
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(120, 10, 301, 121))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(120, 10, 501, 121))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
