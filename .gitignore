@@ -24,3 +24,6 @@ hs_err_pid*
 
 # python cache
 *.pyc
+
+# macos file explorer cache
+*.DS_Store
