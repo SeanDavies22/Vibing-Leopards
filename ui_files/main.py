@@ -1,11 +1,13 @@
 # Author: Nicholas Natale
-# Date: 11/1/22
+# Created: 11/1/22
+# Edited: 11/2/22
 
 # This program will contain all of the code to add functionality to the 
 # designed GUI, so that way new iterations of the GUI will not remove old working
 # GUI functionality. 
 
 from MainWindow import Ui_MainWindow
+from RunScanWindow_actions import RunScanGUI
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class MainGUI(QtWidgets.QMainWindow):
@@ -26,6 +28,9 @@ class MainGUI(QtWidgets.QMainWindow):
         # Action handling for inputFileButton.. 
         self.ui.inputFileButton.clicked.connect(self.input_file_button_action_handling)
 
+        # Action handling for runScanButton.. 
+        self.ui.runScanButton.clicked.connect(self.run_scan_button_action_handling)
+
     def input_file_button_action_handling(self):
         options = QtWidgets.QFileDialog.Options()
         
@@ -35,9 +40,7 @@ class MainGUI(QtWidgets.QMainWindow):
         # Checks if file is able to be read or if a file was selected or not
         # Displays an error Pop-up if conditions match.        
         try:
-            file = QtWidgets.QFileDialog.getOpenFileName(
-                self, "File Explorer", "",
-                "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)",
+            file = QtWidgets.QFileDialog.getOpenFileName(self, "File Explorer", "", "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)",
             options=options)
 
             # Set the filepath to the filepath string in the tuple.
@@ -55,7 +58,12 @@ class MainGUI(QtWidgets.QMainWindow):
         # Will stay set to "blank" if the error conditions are met. 
         self.ui.fileNameLabel.setText(self.filePath)
 
-# Execute the program.
+    def run_scan_button_action_handling(self):
+        self.rsg = RunScanGUI()
+        self.rsg.show_gui()
+
+# Execute the program, and show the GUI if the program was
+# called directly, not imported.
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     mainGUI = MainGUI()
