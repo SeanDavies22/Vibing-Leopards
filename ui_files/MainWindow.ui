@@ -39,7 +39,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>70</y>
       <width>87</width>
       <height>121</height>
      </rect>
@@ -53,6 +53,11 @@
          <height>23</height>
         </size>
        </property>
+       <property name="font">
+        <font>
+         <pointsize>7</pointsize>
+        </font>
+       </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
@@ -63,6 +68,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="futureButton3">
+       <property name="font">
+        <font>
+         <pointsize>7</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Futue Button</string>
        </property>
@@ -70,6 +80,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="futureButton2">
+       <property name="font">
+        <font>
+         <pointsize>7</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>Future Button</string>
        </property>
@@ -77,6 +92,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="futureButton1">
+       <property name="font">
+        <font>
+         <pointsize>7</pointsize>
+        </font>
+       </property>
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
@@ -94,8 +114,8 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>10</y>
-      <width>501</width>
+      <y>70</y>
+      <width>661</width>
       <height>121</height>
      </rect>
     </property>
@@ -148,6 +168,50 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>761</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <pointsize>15</pointsize>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+         <underline>false</underline>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Cost-Benefit Analysis Tool</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="Line" name="topScreenBorderLine">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>50</y>
+      <width>801</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

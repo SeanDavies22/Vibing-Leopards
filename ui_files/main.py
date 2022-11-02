@@ -28,7 +28,9 @@ class MainGUI(QtWidgets.QMainWindow):
 
     def input_file_button_action_handling(self):
         options = QtWidgets.QFileDialog.Options()
-        options |= QtWidgets.QFileDialog.DontUseNativeDialog
+        
+        # The below comment will use the PyQt5 file explorer.
+        # options |= QtWidgets.QFileDialog.DontUseNativeDialog
 
         # Checks if file is able to be read or if a file was selected or not
         # Displays an error Pop-up if conditions match.        
@@ -45,13 +47,13 @@ class MainGUI(QtWidgets.QMainWindow):
         except OSError:
             msg = QtWidgets.QMessageBox()
             msg.setText("File is not able to be read, does not exist or no file was selected. Please choose another file to continue. ")
+            msg.setWindowTitle("File Explorer")
             msg.setIcon(QtWidgets.QMessageBox.Critical)
             x = msg.exec_()
 
         # Sets the label next to the inputFileButton to the chosen file path.
         # Will stay set to "blank" if the error conditions are met. 
         self.ui.fileNameLabel.setText(self.filePath)
-
 
 # Execute the program.
 if __name__ == '__main__':
