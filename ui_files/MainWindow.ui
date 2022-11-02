@@ -6,39 +6,149 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>718</width>
-    <height>371</height>
+    <width>800</width>
+    <height>575</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>575</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>575</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Cost-Benefit Analysis Tool</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: </string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="inputFileButton">
-      <property name="maximumSize">
-       <size>
-        <width>200</width>
-        <height>23</height>
-       </size>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string>Select Input File</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="fileNameLabel">
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>87</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="inputFileButton">
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>23</height>
+        </size>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="text">
+        <string>Select Input File</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="futureButton3">
+       <property name="text">
+        <string>Futue Button</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="futureButton2">
+       <property name="text">
+        <string>Future Button</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="futureButton1">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Future Button</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>10</y>
+      <width>301</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item alignment="Qt::AlignTop">
+      <widget class="QLabel" name="fileNameLabel">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_3">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>470</y>
+      <width>251</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QPushButton" name="runScanButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color:rgb(85, 255, 0)</string>
+       </property>
+       <property name="text">
+        <string>Run Scan</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
@@ -46,16 +156,31 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>718</width>
+     <width>800</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="menuFileTab">
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionXML_3"/>
+     <addaction name="actionNessus"/>
+    </widget>
+    <addaction name="menuExport"/>
    </widget>
-   <addaction name="menuFile"/>
+   <widget class="QMenu" name="menuAboutTab">
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="aboutProgramTabPress"/>
+   </widget>
+   <addaction name="menuFileTab"/>
+   <addaction name="menuAboutTab"/>
   </widget>
   <action name="actionXML">
    <property name="text">
@@ -80,6 +205,21 @@
   <action name="actionAbout_Program">
    <property name="text">
     <string>About Program</string>
+   </property>
+  </action>
+  <action name="aboutProgramTabPress">
+   <property name="text">
+    <string>About Program</string>
+   </property>
+  </action>
+  <action name="actionXML_3">
+   <property name="text">
+    <string>XML</string>
+   </property>
+  </action>
+  <action name="actionNessus">
+   <property name="text">
+    <string>Nessus</string>
    </property>
   </action>
  </widget>

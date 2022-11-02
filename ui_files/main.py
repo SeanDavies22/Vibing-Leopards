@@ -20,10 +20,14 @@ class MainGUI(QtWidgets.QMainWindow):
     def getInputFile(self):
         options = QtWidgets.QFileDialog.Options()
         options |= QtWidgets.QFileDialog.DontUseNativeDialog
+        
+        # Maybe put this in a try block?
         file = QtWidgets.QFileDialog.getOpenFileName(
-            self, "QFileDialog.getOpenFileName()", "",
-                    "Nessus Scan (*.nessus);;XML(*.xml);;Python(*.py);;All Files (*)",
+            self, "File Explorer", "",
+                    "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)",
                     options=options)
+
+        
         self.filePath = file[0]
         self.ui.fileNameLabel.setText(self.filePath)
         
