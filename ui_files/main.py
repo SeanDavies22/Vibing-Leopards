@@ -1,6 +1,6 @@
 # Author: Nicholas Natale
 # Created: 11/1/22
-# Edited: 11/2/22
+# Edited: 11/3/22
 
 # This program will contain all of the code to add functionality to the 
 # designed GUI, so that way new iterations of the GUI will not remove old working
@@ -37,7 +37,7 @@ class MainGUI(QtWidgets.QMainWindow):
         # The below comment will use the PyQt5 file explorer.
         # options |= QtWidgets.QFileDialog.DontUseNativeDialog
 
-        # Checks if file is able to be read or if a file was selected or not
+        # Checks if file is able to be read or if a file was selected or not.
         # Displays an error Pop-up if conditions match.        
         try:
             file = QtWidgets.QFileDialog.getOpenFileName(self, "File Explorer", "", "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)",
@@ -48,19 +48,28 @@ class MainGUI(QtWidgets.QMainWindow):
             f = open(self.filePath, "r")
 
         except OSError:
-            msg = QtWidgets.QMessageBox()
-            msg.setText("File is not able to be read, does not exist or no file was selected. Please choose another file to continue. ")
-            msg.setWindowTitle("File Explorer")
-            msg.setIcon(QtWidgets.QMessageBox.Critical)
-            x = msg.exec_()
+            self.filePath = None
+            self.ui.fileNameLabel.setText(self.filePath) # Reset file name label before error.
+            self.show_error_pop_up("File is not able to be read, does not exist or no file was selected. Please choose another file to continue. ")
 
         # Sets the label next to the inputFileButton to the chosen file path.
         # Will stay set to "blank" if the error conditions are met. 
         self.ui.fileNameLabel.setText(self.filePath)
 
     def run_scan_button_action_handling(self):
-        self.rsg = RunScanGUI()
-        self.rsg.show_gui()
+        if self.filePath == None:
+            self.show_error_pop_up("No input file selected. Please select an input file.")
+        else:
+            self.rsg = RunScanGUI()
+            self.rsg.show_gui()
+            self.rsg.parse_xml(self.filePath)
+
+    def show_error_pop_up(self, errorMessage):
+            msg = QtWidgets.QMessageBox()
+            msg.setText(errorMessage)
+            msg.setWindowTitle("File Explorer")
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            x = msg.exec_()
 
 # Execute the program, and show the GUI if the program was
 # called directly, not imported.

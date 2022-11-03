@@ -1855,6 +1855,7 @@
 <preferenceValues>no</preferenceValues>
 <selectedValue>no</selectedValue>
 </item>
+
 <item><pluginName>Intune Settings</pluginName>
 <pluginId>125030</pluginId>
 <fullName>Intune Settings[entry]:Intune Tenant :</fullName>
