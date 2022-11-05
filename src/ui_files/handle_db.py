@@ -38,23 +38,23 @@ class HandleDB():
         self.conn.commit()
 
 
-HandleDB = HandleDB()
+# HandleDB = HandleDB()
 # print(HandleDB.pull_vuln_data())
 #data = []
 #data = HandleDB.pull_vuln_data()
-#for x in data:
+# for x in data:
 #    print(x)
-data = HandleDB.pull_risk_data()
-for x in data:
-   print(x)
-#for row in HandleDB.cursor.execute("SELECT * FROM Vul_Cost"):
+# data = HandleDB.pull_risk_data()
+# for x in data:
+#   print(x)
+# for row in HandleDB.cursor.execute("SELECT * FROM Vul_Cost"):
 #    print(row)
 #input("Press Enter to continue...")
 #cost = input("Enter the cost: ")
 #vuln = input("Enter the vulnerability: ")
 
 #HandleDB.push_cost_data(vuln, cost)
-#for row in HandleDB.cursor.execute("SELECT * FROM Vul_Cost"):
+# for row in HandleDB.cursor.execute("SELECT * FROM Vul_Cost"):
 #    print(row)
 
 #del HandleDB
