@@ -1,47 +1,68 @@
 # Class to handle database operations
 # Casey Staples
-# Version .2
+# Version .3
 import sqlite3
 
 
 class HandleDB():
     def __init__(self):
-        # Connect to the database
-        self.conn = sqlite3.connect('Cost_DB.db')
-        # Create a cursor to send SQL commands to database
+        # Connect to the database upon creation of object
+        self.connect_to_db()
         self.cursor = self.conn.cursor()
 
     # On deletion of object, close the connection to the database
     def __del__(self):
-        self.conn.close()
+        self.disconnect_from_db()
 
-    def pull_vuln_data(self):
-        # Pull the vulnerability name from the database
-        vuln_data = []
-        self.cursor.execute("SELECT vulnerability FROM Vul_Cost")
+    def connect_to_db(self):
+        try:
+            self.conn = sqlite3.connect('cost_db.db')
+        except sqlite3.Error as e:
+            print("Failed to connect to Database, check file path")
+
+    def disconnect_from_db(self):
+        # Close the connection to the database
+        if (self.conn):
+            self.conn.close()
+
+    def pull_cve_id(self):
+        # Pull the cve ids from the database
+        cve_data = []
+        self.cursor.execute("SELECT cve_id FROM cost")
         for row in self.cursor:
-            vuln_data.insert(0, row[0])
-        return vuln_data
+            cve_data.insert(0, row[0])
+        return cve_data
 
-    def pull_risk_data(self):
-        # Pull the vulnerability risk from the database
-        risk_data = []
-        self.cursor.execute("SELECT risk_level FROM Vul_Cost")
+    def pull_description(self):
+        # Pull the vulnerability description from the database
+        description_data = []
+        self.cursor.execute("SELECT description FROM cost")
         for row in self.cursor:
-            risk_data.insert(0, row[0])
-        return risk_data
+            description_data.insert(0, row[0])
+        return description_data
 
-    def push_cost_data(self, vuln, cost):
+    def pull_description(self, cve_id):
+        # Pull the vulnerability description from the database matching cve_id
+        self.cursor.execute(
+            "SELECT description FROM cost WHERE cve_id =?", (cve_id,))
+        description = self.cursor.fetchone()
+        return description[0]
+
+    def push_cost_data(self, description, cost):
         # Push the vulnerability cost to the database
         self.cursor.execute(
-            "UPDATE Vul_Cost SET cost_hour = ? WHERE vulnerability = ?", (cost, vuln))
+            "UPDATE cost SET cost_per_hour = ? WHERE description = ?", (cost, description))
         self.conn.commit()
 
 
+# Below code is outdated, but can be used to test the database operations..
+# I won't update it, but you can still use it.
+# You just have to update some of the names to match updates made to the above code
+
 # HandleDB = HandleDB()
-# print(HandleDB.pull_vuln_data())
-#data = []
-#data = HandleDB.pull_vuln_data()
+# print(HandleDB.pull_cve_id())
+# data = []
+# data = HandleDB.pull_cve_id()
 # for x in data:
 #    print(x)
 # data = HandleDB.pull_risk_data()

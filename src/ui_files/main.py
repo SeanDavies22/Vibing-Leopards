@@ -65,13 +65,13 @@ class MainGUI(QtWidgets.QMainWindow):
 
     def run_scan_button_action_handling(self):
         # Vars to handle the database
-        risk_list = []
+        cveid_list = []
         db_handler = HandleDB()
 
         self.rsg = RunScanGUI()
         self.rsg.show_gui()
-        # Pull the risk levels from the database, store into the array
-        risk_list = db_handler.pull_risk_data()
+        # Pull cve ids from the database, store into the array
+        cveid_list = db_handler.pull_cve_id()
 
         # This is suppose to create the tree thing so
         # that we can parse the nessus file
@@ -80,20 +80,16 @@ class MainGUI(QtWidgets.QMainWindow):
 
         # This actually parses the nessus file
         # Prints out matches found in the nessus file
-        for nessus_risk in root.iter('risk_factor'):
-            for db_risk in risk_list:
-                if nessus_risk.text.__contains__(db_risk):
-                    print(nessus_risk.text)
+        for nessus_cve in root.iter('cve'):
+            for db_cve in cveid_list:
+                if nessus_cve.text.__contains__(db_cve):
+                    print("Match found: " + db_handler.pull_description(db_cve))
 
         # This look just prints out what is in the nessus file
         # that we are comparing to the database array
         # useful to testing if we are collecting the right xml tag
         # for nessus_risk in root.iter('risk_factor'):
         #     print(nessus_risk.text)
-
-        # Have to del database handler to close database connection .. will cause errors if not closed.
-        # Will move this into a separate function to coneect and close the database for final realase.
-        del db_handler
 
 
 # Execute the program, and show the GUI if the program was
