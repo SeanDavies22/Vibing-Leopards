@@ -1,17 +1,14 @@
-# Author: Nicholas Natale, Casey Staples
+# Author: Nicholas Natale
 # Created: 11/1/22
-# Edited: 3/11/22 - By Casey added the database stuff
+# Edited: 11/3/22
 
-# This program will contain all of the code to add functionality to the
+# This program will contain all of the code to add functionality to the 
 # designed GUI, so that way new iterations of the GUI will not remove old working
-# GUI functionality.
+# GUI functionality. 
 
 from MainWindow import Ui_MainWindow
 from RunScanWindow_actions import RunScanGUI
 from PyQt5 import QtCore, QtGui, QtWidgets
-from handle_db import *
-import xml.etree.cElementTree as ET
-
 
 class MainGUI(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -20,77 +17,59 @@ class MainGUI(QtWidgets.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # Run GUI functions from main to add flow of operations.
+        # Run GUI functions from main to add flow of operations. 
         self.main()
 
     def main(self):
-
+        
         # Initialize class variables
         self.filePath = None
 
-        # Action handling for inputFileButton..
-        self.ui.inputFileButton.clicked.connect(
-            self.input_file_button_action_handling)
+        # Action handling for inputFileButton.. 
+        self.ui.inputFileButton.clicked.connect(self.input_file_button_action_handling)
 
-        # Action handling for runScanButton..
-        self.ui.runScanButton.clicked.connect(
-            self.run_scan_button_action_handling)
+        # Action handling for runScanButton.. 
+        self.ui.runScanButton.clicked.connect(self.run_scan_button_action_handling)
 
     def input_file_button_action_handling(self):
         options = QtWidgets.QFileDialog.Options()
+        
         # The below comment will use the PyQt5 file explorer.
         # options |= QtWidgets.QFileDialog.DontUseNativeDialog
 
-        # Checks if file is able to be read or if a file was selected or not
-        # Displays an error Pop-up if conditions match.
+        # Checks if file is able to be read or if a file was selected or not.
+        # Displays an error Pop-up if conditions match.        
         try:
             file = QtWidgets.QFileDialog.getOpenFileName(self, "File Explorer", "", "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)",
-                                                         options=options)
+            options=options)
 
             # Set the filepath to the filepath string in the tuple.
             self.filePath = file[0]
             f = open(self.filePath, "r")
 
         except OSError:
-            msg = QtWidgets.QMessageBox()
-            msg.setText(
-                "File is not able to be read, does not exist or no file was selected. Please choose another file to continue. ")
-            msg.setWindowTitle("File Explorer")
-            msg.setIcon(QtWidgets.QMessageBox.Critical)
-            x = msg.exec_()
+            self.filePath = None
+            self.ui.fileNameLabel.setText(self.filePath) # Reset file name label before error.
+            self.show_error_pop_up("File is not able to be read, does not exist or no file was selected. Please choose another file to continue. ")
 
         # Sets the label next to the inputFileButton to the chosen file path.
-        # Will stay set to "blank" if the error conditions are met.
+        # Will stay set to "blank" if the error conditions are met. 
         self.ui.fileNameLabel.setText(self.filePath)
 
     def run_scan_button_action_handling(self):
-        # Vars to handle the database
-        cveid_list = []
-        db_handler = HandleDB()
+        if self.filePath == None:
+            self.show_error_pop_up("No input file selected. Please select an input file.")
+        else:
+            self.rsg = RunScanGUI()
+            self.rsg.show_gui()
+            self.rsg.parse_xml(self.filePath)
 
-        self.rsg = RunScanGUI()
-        self.rsg.show_gui()
-        # Pull cve ids from the database, store into the array
-        cveid_list = db_handler.pull_cve_id()
-
-        # This is suppose to create the tree thing so
-        # that we can parse the nessus file
-        tree = ET.ElementTree(file=self.filePath)
-        root = tree.getroot()
-
-        # This actually parses the nessus file
-        # Prints out matches found in the nessus file
-        for nessus_cve in root.iter('cve'):
-            for db_cve in cveid_list:
-                if nessus_cve.text.__contains__(db_cve):
-                    print("Match found: " + db_handler.pull_description(db_cve))
-
-        # This look just prints out what is in the nessus file
-        # that we are comparing to the database array
-        # useful to testing if we are collecting the right xml tag
-        # for nessus_risk in root.iter('risk_factor'):
-        #     print(nessus_risk.text)
-
+    def show_error_pop_up(self, errorMessage):
+            msg = QtWidgets.QMessageBox()
+            msg.setText(errorMessage)
+            msg.setWindowTitle("File Explorer")
+            msg.setIcon(QtWidgets.QMessageBox.Critical)
+            x = msg.exec_()
 
 # Execute the program, and show the GUI if the program was
 # called directly, not imported.
@@ -99,3 +78,4 @@ if __name__ == '__main__':
     mainGUI = MainGUI()
     mainGUI.show()
     app.exec_()
+

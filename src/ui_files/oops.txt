@@ -1,8 +1,0 @@
-tree = ET.ElementTree(self.filePath)
-        root = tree.getroot()
-
-        for risk in root.iter('risk_factor'):
-          if risk.text.__contains__(risk_list):
-            print(risk.text)
-          else:
-            print("No match")
