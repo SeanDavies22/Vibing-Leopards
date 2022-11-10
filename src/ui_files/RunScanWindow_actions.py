@@ -45,11 +45,13 @@ class RunScanGUI(QtWidgets.QMainWindow):
         # This actually parses the nessus file
         # Prints out matches found in the nessus file
         msg = QtWidgets.QMessageBox()
+        msgTxtString = "Match found: "
         for nessus_cve in root.iter('cve'):
             database_cost = db_handler.pull_cost_data(nessus_cve.text)
             database_cost = str(database_cost)
-            msg.setText("Match found: " + nessus_cve.text + " " +
-                        database_cost[0] + " " + database_cost[1])
-            msg.setWindowTitle("File Explorer")
-            msg.setIcon(QtWidgets.QMessageBox.Information)
-            x = msg.exec_()
+            msgTxtString = msgTxtString + nessus_cve.text + " " + database_cost[0] + " " + database_cost[1]
+            
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        msg.setText(msgTxtString)
+        msg.setWindowTitle("Database Check")
+        x = msg.exec_()

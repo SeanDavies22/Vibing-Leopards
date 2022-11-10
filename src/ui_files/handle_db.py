@@ -68,7 +68,7 @@ class HandleDB():
             for row in self.cursor:
                 cost_data.insert(0, row[0])
         except sqlite3.Error as e:
-            return "Error: " + e
+            return "Error: " + str(e)
 
         return cost_data
 
