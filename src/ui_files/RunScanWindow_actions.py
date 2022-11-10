@@ -48,8 +48,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
         msgTxtString = "Match found: "
         for nessus_cve in root.iter('cve'):
             database_cost = db_handler.pull_cost_data(nessus_cve.text)
-            database_cost = str(database_cost)
-            msgTxtString = msgTxtString + nessus_cve.text + " " + database_cost[0] + " " + database_cost[1]
+            msgTxtString = msgTxtString + " " + str(database_cost[0]) + " " + str(database_cost[1])
             
         msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setText(msgTxtString)
