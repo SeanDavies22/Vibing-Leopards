@@ -16,7 +16,7 @@ class HandleDB():
 
     def connect_to_db(self):
         try:
-            self.conn = sqlite3.connect('cost_db.db')
+            self.conn = sqlite3.connect('cve_data.db')
         except sqlite3.Error as e:
             print("Failed to connect to Database, check file path")
 
@@ -54,6 +54,23 @@ class HandleDB():
             "UPDATE cost SET cost_per_hour = ? WHERE description = ?", (cost, description))
         self.conn.commit()
 
+    def pull_cost_data(self, cve_id):
+        # Pull the vulnerability cost from the database
+        # [1] is the cost, [0] is the description
+        cost_data = []
+        try:
+            self.cursor.execute(
+                "SELECT Cost FROM cve_table WHERE ID = ?", (cve_id,))
+            for row in self.cursor:
+                cost_data.insert(1, row[0])
+            self.cursor.execute(
+                "SELECT Description FROM cve_table WHERE ID = ?", (cve_id,))
+            for row in self.cursor:
+                cost_data.insert(0, row[0])
+        except sqlite3.Error as e:
+            return "Error: " + e
+
+        return cost_data
 
 # Below code is outdated, but can be used to test the database operations..
 # I won't update it, but you can still use it.
