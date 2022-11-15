@@ -24,5 +24,8 @@ hs_err_pid*
 # macos file explorer cache
 =======
 # pycache files
-*.pycache
+*.pyc
+
+# mac file explorer stuff.
+*.DS_Store
 

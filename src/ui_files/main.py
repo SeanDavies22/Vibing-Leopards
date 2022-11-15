@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class MainGUI(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
@@ -30,6 +30,9 @@ class MainGUI(QtWidgets.QMainWindow):
 
         # Action handling for runScanButton.. 
         self.ui.runScanButton.clicked.connect(self.run_scan_button_action_handling)
+
+        # Action handling for About Program Tab press..
+        self.ui.aboutProgramTabPress.triggered.connect(self.about_program_action_handling)
 
     def input_file_button_action_handling(self):
         options = QtWidgets.QFileDialog.Options()
@@ -53,7 +56,7 @@ class MainGUI(QtWidgets.QMainWindow):
             self.show_error_pop_up("File is not able to be read, does not exist or no file was selected. Please choose another file to continue. ")
 
         # Sets the label next to the inputFileButton to the chosen file path.
-        # Will stay set to "blank" if the error conditions are met. 
+        # Label Will stay set to "" if the error conditions are met. 
         self.ui.fileNameLabel.setText(self.filePath)
 
     def run_scan_button_action_handling(self):
@@ -64,12 +67,26 @@ class MainGUI(QtWidgets.QMainWindow):
             self.rsg.show_gui()
             self.rsg.parse_xml(self.filePath)
 
+    # Action handling for the about program tab option in the menu bar of the GUI. 
+    def about_program_action_handling(self):
+        aboutProgramText = "Welcome to the Cost-Benefit Analysis Tool. Some more stuff will be in here later.\n\n Developed By: Vibing Leopards"
+        self.show_info_pop_up(aboutProgramText)
+
+    # Displays an error pop up with given text as the first parameter.
     def show_error_pop_up(self, errorMessage):
             msg = QtWidgets.QMessageBox()
             msg.setText(errorMessage)
             msg.setWindowTitle("File Explorer")
             msg.setIcon(QtWidgets.QMessageBox.Critical)
             x = msg.exec_()
+
+    # displays a information pop up with given text as the first parameter. 
+    def show_info_pop_up(self, text):
+        msg = QtWidgets.QMessageBox()
+        msg.setText(text)
+        msg.setWindowTitle("About Program")
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+        x = msg.exec_()
 
 # Execute the program, and show the GUI if the program was
 # called directly, not imported.
@@ -78,4 +95,3 @@ if __name__ == '__main__':
     mainGUI = MainGUI()
     mainGUI.show()
     app.exec_()
-

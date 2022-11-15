@@ -39,14 +39,20 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>70</y>
+      <y>110</y>
       <width>87</width>
-      <height>121</height>
+      <height>47</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
+    <layout class="QVBoxLayout" name="inputFileButtonVLayout">
+     <item alignment="Qt::AlignTop">
       <widget class="QPushButton" name="inputFileButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="maximumSize">
         <size>
          <width>200</width>
@@ -66,60 +72,18 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="futureButton3">
-       <property name="font">
-        <font>
-         <pointsize>7</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Futue Button</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="futureButton2">
-       <property name="font">
-        <font>
-         <pointsize>7</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Future Button</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="futureButton1">
-       <property name="font">
-        <font>
-         <pointsize>7</pointsize>
-        </font>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Future Button</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
     </layout>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>70</y>
+      <y>110</y>
       <width>661</width>
-      <height>121</height>
+      <height>41</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="fileNameLabelVLayout">
      <item alignment="Qt::AlignTop">
       <widget class="QLabel" name="fileNameLabel">
        <property name="font">
@@ -143,7 +107,7 @@
       <height>81</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="runScanButtonVLayout">
      <item>
       <widget class="QPushButton" name="runScanButton">
        <property name="minimumSize">
@@ -172,9 +136,9 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>20</x>
       <y>10</y>
-      <width>701</width>
+      <width>761</width>
       <height>51</height>
      </rect>
     </property>
@@ -216,16 +180,149 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
+   <widget class="QWidget" name="verticalLayoutWidget_4">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
-      <width>51</width>
-      <height>51</height>
+      <y>200</y>
+      <width>133</width>
+      <height>81</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="programIconLayout"/>
+    <layout class="QVBoxLayout" name="businessSizeButtonVLayout">
+     <item>
+      <widget class="QRadioButton" name="smallBusinessRadioButton">
+       <property name="text">
+        <string>Small Sized Business</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="mediumBusinessRadioButton">
+       <property name="text">
+        <string>Medium Sized Business</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="largeBusinessRadioButton">
+       <property name="text">
+        <string>Large Sized Business</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>761</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="inputFilePermanentVLayout">
+     <item>
+      <widget class="QLabel" name="inputFilePermanentLabel">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Input File:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_6">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>761</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="businessSizeLabelVLayout">
+     <item>
+      <widget class="QLabel" name="businessSizeLabel">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Business Size:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_7">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>290</y>
+      <width>761</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="businessTypeLabelVLayout">
+     <item>
+      <widget class="QLabel" name="businessTypeLabel">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Business Type:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_8">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>330</y>
+      <width>133</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="businessTypeButtonVLayout">
+     <item>
+      <widget class="QRadioButton" name="homeSmallOfficeRadioButton">
+       <property name="text">
+        <string>Home/ Small Office</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="corporateRadioButton">
+       <property name="text">
+        <string>Corporate</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="federalBusinessRadioButton">
+       <property name="text">
+        <string>Federal/Govermental</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
