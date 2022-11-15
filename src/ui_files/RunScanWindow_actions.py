@@ -42,15 +42,28 @@ class RunScanGUI(QtWidgets.QMainWindow):
         tree = ET.ElementTree(file=file)
         root = tree.getroot()
 
+
+    def populate_table(self, table):
+        tbl = table
+        tbl.show()
+
+
+
+
+
+
+
+# Code that does the parsing for the database information .....
+
         # This actually parses the nessus file
         # Prints out matches found in the nessus file
-        msg = QtWidgets.QMessageBox()
-        msgTxtString = "Match found: "
-        for nessus_cve in root.iter('cve'):
-            database_cost = db_handler.pull_cost_data(nessus_cve.text)
-            msgTxtString = msgTxtString + " " + str(database_cost[0]) + " " + str(database_cost[1])
+        #msg = QtWidgets.QMessageBox()
+        #msgTxtString = "Match found: "
+        #for nessus_cve in root.iter('cve'):
+            #database_cost = db_handler.pull_cost_data(nessus_cve.text)
+            #msgTxtString = msgTxtString + " " + str(database_cost[0]) + " " + str(database_cost[1])
             
-        msg.setIcon(QtWidgets.QMessageBox.Information)
-        msg.setText(msgTxtString)
-        msg.setWindowTitle("Database Check")
-        x = msg.exec_()
+        #msg.setIcon(QtWidgets.QMessageBox.Information)
+        #msg.setText(msgTxtString)
+        #msg.setWindowTitle("Database Check")
+        #x = msg.exec_()

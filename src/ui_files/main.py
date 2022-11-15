@@ -66,6 +66,9 @@ class MainGUI(QtWidgets.QMainWindow):
             self.rsg = RunScanGUI()
             self.rsg.show_gui()
             self.rsg.parse_xml(self.filePath)
+            table = self.rsg.ui.testTable
+            table.show()
+            self.rsg.populate_table(table)
 
     # Action handling for the about program tab option in the menu bar of the GUI. 
     def about_program_action_handling(self):
