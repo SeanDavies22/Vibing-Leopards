@@ -28,7 +28,7 @@ class Ui_RunScanWindow(object):
         self.dataTable = QtWidgets.QTableWidget(self.verticalLayoutWidget)
         self.dataTable.setObjectName("dataTable")
         self.dataTable.setColumnCount(4)
-        self.dataTable.setRowCount(1)
+        self.dataTable.setRowCount(69)
         item = QtWidgets.QTableWidgetItem()
         self.dataTable.setVerticalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -43,10 +43,12 @@ class Ui_RunScanWindow(object):
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.centralwidget)
         self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(10, 410, 241, 31))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
-        self.suggestionLabelVLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
+        self.suggestionLabelVLayout = QtWidgets.QVBoxLayout(
+            self.verticalLayoutWidget_2)
         self.suggestionLabelVLayout.setContentsMargins(0, 0, 0, 0)
         self.suggestionLabelVLayout.setObjectName("suggestionLabelVLayout")
-        self.analysisSuggestionLabe = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.analysisSuggestionLabe = QtWidgets.QLabel(
+            self.verticalLayoutWidget_2)
         font = QtGui.QFont()
         font.setPointSize(12)
         font.setBold(True)
@@ -68,9 +70,10 @@ class Ui_RunScanWindow(object):
 
     def retranslateUi(self, RunScanWindow):
         _translate = QtCore.QCoreApplication.translate
-        RunScanWindow.setWindowTitle(_translate("RunScanWindow", "Run Analysis"))
-        item = self.dataTable.verticalHeaderItem(0)
-        item.setText(_translate("RunScanWindow", "Vulnerability Match"))
+        RunScanWindow.setWindowTitle(
+            _translate("RunScanWindow", "Run Analysis"))
+       #item = self.dataTable.verticalHeaderItem(0)
+        #item.setText(_translate("RunScanWindow", "Vulnerability Match"))
         item = self.dataTable.horizontalHeaderItem(0)
         item.setText(_translate("RunScanWindow", "CVE ID"))
         item = self.dataTable.horizontalHeaderItem(1)
@@ -79,4 +82,5 @@ class Ui_RunScanWindow(object):
         item.setText(_translate("RunScanWindow", "Engineering Hrs"))
         item = self.dataTable.horizontalHeaderItem(3)
         item.setText(_translate("RunScanWindow", "Description"))
-        self.analysisSuggestionLabe.setText(_translate("RunScanWindow", "Analysis Suggestion:"))
+        self.analysisSuggestionLabe.setText(
+            _translate("RunScanWindow", "Analysis Suggestion:"))
