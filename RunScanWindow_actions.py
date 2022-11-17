@@ -16,19 +16,19 @@ sys.path.append(os.getcwd())
 
 
 class RunScanGUI(QtWidgets.QMainWindow):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, filePath, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Setup the UI for the Run Analysis window
-        filePath = "C:\\Users\\Casey\\Documents\\Github\\Vibing-Leopards\\My_Basic_Network_Scan.nessus"
+        self.filePath = filePath
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
         self.ui.dataTable.setColumnCount(4)
-        self.populate_table(self.ui.dataTable, filePath)
+        self.populate_table(self.ui.dataTable, self.filePath)
         self.ui.dataTable.resizeColumnsToContents()
 
     def show_gui(self):
-        self.rsg = RunScanGUI()
+        self.rsg = RunScanGUI(self.filePath)
         self.rsg.show()
 
     def hide_gui(self):

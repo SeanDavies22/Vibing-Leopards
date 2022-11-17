@@ -88,7 +88,7 @@ class MainGUI(QtWidgets.QMainWindow):
             self.show_error_pop_up(
                 "No business type selected. Please select a business type.")
         if ((self.filePath != None) and (self.businessSize > 0) and (self.businessType > 0)):
-            self.rsg = RunScanGUI()
+            self.rsg = RunScanGUI(self.filePath)
             self.rsg.show_gui()
             table = self.rsg.ui.dataTable
             table.show()
