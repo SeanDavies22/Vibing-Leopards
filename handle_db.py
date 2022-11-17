@@ -28,28 +28,25 @@ class HandleDB():
     def pull_cve_id(self):
         # Pull the cve ids from the database
         cve_data = []
-        self.cursor.execute("SELECT cve_id FROM cost")
+        self.cursor.execute("SELECT cve_id FROM vul_cost")
         for row in self.cursor:
             cve_data.insert(0, row[0])
         return cve_data
 
     def check_cve_id(self, cve_id):
         # check if the cve id is in the database
-        id = -1
         self.cursor.execute(
-            "SELECT cve_id FROM cost WHERE cve_id =?", (cve_id,))
-        id = self.cursor.fetchone()
-
-        if id:
-            return True
-
-        else:
+            "SELECT cve_id FROM vul_cost WHERE cve_id =?", (cve_id,))
+        result = self.cursor.fetchone()
+        if result is None:
             return False
+        else:
+            return True
 
     def pull_description(self):
         # Pull the vulnerability description from the database
         description_data = []
-        self.cursor.execute("SELECT description FROM cost")
+        self.cursor.execute("SELECT description FROM vul_cost")
         for row in self.cursor:
             description_data.insert(0, row[0])
         return description_data
@@ -61,28 +58,42 @@ class HandleDB():
         total_cost = float(0)
 
         self.cursor.execute(
-            "SELECT cost_per_hour FROM cost WHERE cve_id = ?", (cve_id,))
+            "SELECT cost_hour FROM vul_cost WHERE cve_id = ?", (cve_id,))
         cost_per_hour = self.cursor.fetchone()
 
         self.cursor.execute(
-            "SELECT hours FROM cost WHERE cve_id = ?", (cve_id,))
+            "SELECT hours_fix FROM vul_cost WHERE cve_id = ?", (cve_id,))
         cost_hour = self.cursor.fetchone()
 
-        total_cost = cost_per_hour * cost_hour
+        total_cost = cost_per_hour[0] * cost_hour[0]
 
         return total_cost
 
     def pull_description(self, cve_id):
         # Pull the vulnerability description from the database matching cve_id
         self.cursor.execute(
-            "SELECT description FROM cost WHERE cve_id =?", (cve_id,))
+            "SELECT description FROM vul_cost WHERE cve_id =?", (cve_id,))
         description = self.cursor.fetchone()
-        return description
+        return str(description)
+
+    def pull_cost_hrs(self, cve_id):
+        # Pull the cost_hour from the database
+        self.cursor.execute(
+            "SELECT cost_hour FROM vul_cost WHERE cve_id =?", (cve_id,))
+        cost_hour = self.cursor.fetchone()
+        return cost_hour
+
+    def pull_total_hrs(self, cve_id):
+        # Pull the total hours to fix from the database
+        self.cursor.execute(
+            "SELECT hours_fix FROM vul_cost WHERE cve_id =?", (cve_id,))
+        total_hrs = self.cursor.fetchone()
+        return total_hrs
 
     def push_cost_data(self, description, cost):
         # Push the vulnerability cost to the database
         self.cursor.execute(
-            "UPDATE cost SET cost_per_hour = ? WHERE description = ?", (cost, description))
+            "UPDATE vul_cost SET cost_per_hour = ? WHERE description = ?", (cost, description))
 
         self.conn.commit()
 

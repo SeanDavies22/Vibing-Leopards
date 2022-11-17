@@ -20,8 +20,12 @@ class RunScanGUI(QtWidgets.QMainWindow):
         super().__init__(*args, **kwargs)
 
         # Setup the UI for the Run Analysis window
+        filePath = "C:\\Users\\Casey\\Documents\\Github\\Vibing-Leopards\\My_Basic_Network_Scan.nessus"
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
+        self.ui.dataTable.setColumnCount(4)
+        self.populate_table(self.ui.dataTable, filePath)
+        self.ui.dataTable.resizeColumnsToContents()
 
     def show_gui(self):
         self.rsg = RunScanGUI()
@@ -36,8 +40,8 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
         cve_id_nessus = []
 
-        self.rsg = RunScanGUI()
-        self.rsg.show_gui()
+        #self.rsg = RunScanGUI()
+        # self.rsg.show_gui()
 
         # This is suppose to create the tree thing so
         # that we can parse the nessus file
@@ -64,29 +68,26 @@ class RunScanGUI(QtWidgets.QMainWindow):
             if db_handler.check_cve_id(cve):
                 counter += 1
 
+        table.setRowCount(counter)
+
         for cve in cve_id_nessus:
             if db_handler.check_cve_id(cve):
                 description = db_handler.pull_description(
                     cve)  # pull matching description from db
-                total_cost = db_handler.pull_cost(
-                    cve)  # pull matching cost from db
+                # pull matching cost from db
+                cost_hours = db_handler.pull_cost_hrs(cve)
+                total_hours = db_handler.pull_total_hrs(cve)
                 table.setItem(counter_2, 0,
-                              QtWidgets.QTableWidgetItem(cve_id_nessus[0]))  # set first column to cve_id
+                              QtWidgets.QTableWidgetItem(cve))  # set first column to cve_id
                 table.setItem(counter_2, 1,
-                              QtWidgets.QTableWidgetItem(total_cost[0]))  # set secound column to cost
+                              QtWidgets.QTableWidgetItem(str(cost_hours[0])))  # set secound column to cost
                 table.setItem(counter_2, 2,
-                              QtWidgets.QTableWidgetItem(description[0]))  # set third column to description
-                counter_2 += 1
-            else:  # on no match just set the cve_id coulmn to test.. to see if we can print anything
-                table.insertRow(counter_2)
-                table.setItem(counter_2, 0,
-                              QtWidgets.QTableWidgetItem("test"))
-                counter_2 += 1
-
-        tbl = table
-
-        tbl.show()
-
+                              QtWidgets.QTableWidgetItem(str(total_hours[0])))  # set third column to total hours
+                # remove the brackets and the junk at the end from description
+                description = description[2:-5]
+                table.setItem(counter_2, 3,
+                              QtWidgets.QTableWidgetItem(description))  # set third column to description
+                counter_2 = counter_2 + 1
 
 # Code that does the parsing for the database information .....
 

@@ -28,7 +28,7 @@ class Ui_RunScanWindow(object):
         self.dataTable = QtWidgets.QTableWidget(self.verticalLayoutWidget)
         self.dataTable.setObjectName("dataTable")
         self.dataTable.setColumnCount(4)
-        self.dataTable.setRowCount(69)
+        # self.dataTable.setRowCount(69)
         item = QtWidgets.QTableWidgetItem()
         self.dataTable.setVerticalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()

@@ -92,7 +92,6 @@ class MainGUI(QtWidgets.QMainWindow):
             self.rsg.show_gui()
             table = self.rsg.ui.dataTable
             table.show()
-            self.rsg.populate_table(table, self.filePath)
 
     # Action handling methods
     def about_program_action_handling(self):
