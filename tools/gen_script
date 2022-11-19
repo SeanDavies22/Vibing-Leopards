@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# This script is a quick executable to use
-# This script was added to the PATH variable to run it from anywhere.
-
-file=$1
-fileNameNoExtension=$(echo $file | sed 's/\..*//')
-pyuic5 -x $1 -o $fileNameNoExtension.pyw
-chmod 777 $fileNameNoExtension.pyw
