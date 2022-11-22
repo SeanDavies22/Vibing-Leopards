@@ -27,8 +27,6 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.populate_table(self.ui.dataTable, self.filePath)
         self.ui.dataTable.resizeColumnsToContents()
 
-<<<<<<< HEAD
-=======
         self.ui.dataTable.cellDoubleClicked.connect(self.cve_id_table_cell_pressed)
 
     def cve_id_table_cell_pressed(self):
@@ -42,7 +40,6 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 msg.setIcon(QtWidgets.QMessageBox.Information)
                 x = msg.exec_()
 
->>>>>>> natale-develop-table-cell-expansion
     def show_gui(self):
         self.rsg = RunScanGUI(self.filePath)
         self.rsg.show()
