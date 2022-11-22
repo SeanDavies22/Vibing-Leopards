@@ -27,6 +27,22 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.populate_table(self.ui.dataTable, self.filePath)
         self.ui.dataTable.resizeColumnsToContents()
 
+<<<<<<< HEAD
+=======
+        self.ui.dataTable.cellDoubleClicked.connect(self.cve_id_table_cell_pressed)
+
+    def cve_id_table_cell_pressed(self):
+        for cell in self.ui.dataTable.selectionModel().selectedIndexes():
+            row_number = cell.row()
+            column_number = cell.column()
+            if (column_number == 0):
+                msg = QtWidgets.QMessageBox()
+                msg.setText("You pressed a certain CVE ID. Good job.")
+                msg.setWindowTitle("File Explorer")
+                msg.setIcon(QtWidgets.QMessageBox.Information)
+                x = msg.exec_()
+
+>>>>>>> natale-develop-table-cell-expansion
     def show_gui(self):
         self.rsg = RunScanGUI(self.filePath)
         self.rsg.show()

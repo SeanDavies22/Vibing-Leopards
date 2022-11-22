@@ -185,7 +185,7 @@
      <rect>
       <x>20</x>
       <y>200</y>
-      <width>133</width>
+      <width>174</width>
       <height>81</height>
      </rect>
     </property>
@@ -193,21 +193,21 @@
      <item>
       <widget class="QRadioButton" name="smallBusinessRadioButton">
        <property name="text">
-        <string>Small Sized Business</string>
+        <string>Small (&lt; 10)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QRadioButton" name="mediumBusinessRadioButton">
        <property name="text">
-        <string>Medium Sized Business</string>
+        <string>Medium (10-100)</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QRadioButton" name="largeBusinessRadioButton">
        <property name="text">
-        <string>Large Sized Business</string>
+        <string>Large (&gt; 100 )</string>
        </property>
       </widget>
      </item>
@@ -259,7 +259,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Business Size:</string>
+        <string>Business Size (in number of nodes):</string>
        </property>
       </widget>
      </item>
