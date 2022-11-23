@@ -30,6 +30,19 @@ class RunScanGUI(QtWidgets.QMainWindow):
                             self.filePath, self.business_info)
         self.ui.dataTable.resizeColumnsToContents()
 
+        self.ui.dataTable.cellDoubleClicked.connect(self.cve_id_table_cell_pressed)
+
+    def cve_id_table_cell_pressed(self):
+        for cell in self.ui.dataTable.selectionModel().selectedIndexes():
+            row_number = cell.row()
+            column_number = cell.column()
+            if (column_number == 0):
+                msg = QtWidgets.QMessageBox()
+                msg.setText("You pressed a certain CVE ID. Good job.")
+                msg.setWindowTitle("File Explorer")
+                msg.setIcon(QtWidgets.QMessageBox.Information)
+                x = msg.exec_()
+
     def show_gui(self):
         self.rsg = RunScanGUI(self.filePath, self.business_info)
         self.rsg.show()
