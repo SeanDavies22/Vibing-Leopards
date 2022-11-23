@@ -1,10 +1,7 @@
-## Purpose is to create a Class that will contain each row's info from the database.
+# Class to handle containing all the info for each row in the table output (and database)
+from handle_db import HandleDB
 
-The following is the general blueprint for how the class will look; however things may change.
 
-I would make this a Struct, but apparently python doesn't need them.  
-
-```
 class VulnInfo:
     cve_id = ""
     cost_hour = 0
@@ -37,4 +34,3 @@ class VulnInfo:
         self.description = self.db_handler.pull_description(cve_id)
         # git rid of the junk at the tails of the description
         self.description = self.description[2:-5]
-```

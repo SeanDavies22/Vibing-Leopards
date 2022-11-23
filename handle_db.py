@@ -51,7 +51,15 @@ class HandleDB():
             description_data.insert(0, row[0])
         return description_data
 
-    def pull_cost(self, cve_id):
+    def pull_description(self, cve_id):
+        # Pull the vulnerability description from the database matching cve_id
+        self.cursor.execute(
+            "SELECT description FROM vul_cost WHERE cve_id =?", (cve_id,))
+        description = self.cursor.fetchone()
+        return str(description)
+
+        # TODO: Might not want to use this function, rather do total_cost in the VulnInfo class
+    """ def pull_cost(self, cve_id):
         # Pull the vulnerability cost from the database
         cost_per_hour = float(0)
         cost_hour = float(0)
@@ -68,33 +76,40 @@ class HandleDB():
         total_cost = cost_per_hour[0] * cost_hour[0]
 
         return total_cost
+    """
 
-    def pull_description(self, cve_id):
-        # Pull the vulnerability description from the database matching cve_id
+    def pull_item_name(self, cve_id):
+        # Pull the item name
         self.cursor.execute(
-            "SELECT description FROM vul_cost WHERE cve_id =?", (cve_id,))
-        description = self.cursor.fetchone()
-        return str(description)
+            "SELECT item_name FROM vul_cost WHERE cve_id = ?", (cve_id,))
+        item_name = self.cursor.fetchone()
+        return item_name
+
+    def pull_item_cost(self, cve_id):
+        # Pull the item cost from the database
+        self.cursor.execute(
+            "SELECT item_cost FROM vul_cost WHERE cve_id =?", (cve_id,))
+        item_cost = self.cursor.fetchone()
+        return item_cost
 
     def pull_cost_hrs(self, cve_id):
         # Pull the cost_hour from the database
         self.cursor.execute(
             "SELECT cost_hour FROM vul_cost WHERE cve_id =?", (cve_id,))
         cost_hour = self.cursor.fetchone()
-        return cost_hour
+        return int(cost_hour[0])
 
     def pull_total_hrs(self, cve_id):
         # Pull the total hours to fix from the database
         self.cursor.execute(
             "SELECT hours_fix FROM vul_cost WHERE cve_id =?", (cve_id,))
         total_hrs = self.cursor.fetchone()
-        return total_hrs
+        return int(total_hrs[0])
 
     def push_cost_data(self, description, cost):
         # Push the vulnerability cost to the database
         self.cursor.execute(
             "UPDATE vul_cost SET cost_per_hour = ? WHERE description = ?", (cost, description))
-
         self.conn.commit()
 
 
