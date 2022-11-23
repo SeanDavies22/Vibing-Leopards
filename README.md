@@ -12,7 +12,7 @@ total_hours
 item_name
 item_cost 
 description
-bussiness_info [] <sub> 0 for size, 1 for type </sub>
-DbHandler db_handler <sub> I might end gutting the DbHandler class and push funtions into this class </sub>
+bussiness_info []
+DbHandler db_handler 
 }
 ```
