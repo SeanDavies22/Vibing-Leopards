@@ -13,6 +13,7 @@ from handle_db import HandleDB
 from VulnInfo import VulnInfo
 import os
 import sys
+import xlsxwriter
 sys.path.append(os.getcwd())
 
 
@@ -29,9 +30,12 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.populate_table(self.ui.dataTable,
                             self.filePath, self.business_info)
         self.ui.dataTable.resizeColumnsToContents()
-
-        self.ui.dataTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.ui.dataTable.cellDoubleClicked.connect(self.cve_id_table_cell_pressed)
+        self.ui.dataTable.resizeRowsToContents()
+        self.ui.dataTable.setEditTriggers(
+            QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.ui.dataTable.cellDoubleClicked.connect(
+            self.cve_id_table_cell_pressed)
+        self.ui.actionSave.triggered.connect(self.exporter)
 
     def cve_id_table_cell_pressed(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
@@ -43,6 +47,44 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 msg.setWindowTitle("File Explorer")
                 msg.setIcon(QtWidgets.QMessageBox.Information)
                 x = msg.exec_()
+
+    def exporter(self, filename=None):
+        if not filename:
+            filename = QtWidgets.QFileDialog.getSaveFileName(
+                self, 'Save File', " "'.xlsx', '(*.xlsx)')
+
+        if filename[0]:
+            print(filename[0])
+            work_book = xlsxwriter.Workbook(filename[0])
+            work_sheet = work_book.add_worksheet()
+            row = 0
+            col = 0
+            for i in range(self.ui.dataTable.columnCount()):
+                for x in range(self.ui.dataTable.rowCount()):
+                    try:
+                        text = str(self.ui.dataTable.item(row, col).text())
+                        work_sheet.write(row, col, str(text))
+                        row += 1
+                    except AttributeError:
+                        row += 1
+                row = 0
+                col += 1
+           # self.export(work_sheet)
+        work_book.close()
+
+    # def export(self, work_sheet):
+        #row = 0
+        #col = 0
+        # for i in range(self.ui.dataTable.columnCount()):
+        # for x in range(self.ui.dataTable.rowCount()):
+        # try:
+        #  text = str(self.ui.dataTable.item(row, col).text())
+        #   work_sheet._write(row, col, str(text))
+        #   row += 1
+        # except AttributeError:
+        #   row += 1
+        #row = 0
+        #col += 1
 
     def show_gui(self):
         self.rsg = RunScanGUI(self.filePath, self.business_info)
