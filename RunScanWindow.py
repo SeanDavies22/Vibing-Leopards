@@ -15,10 +15,12 @@ class Ui_RunScanWindow(object):
     def setupUi(self, RunScanWindow):
         RunScanWindow.setObjectName("RunScanWindow")
         RunScanWindow.resize(800, 575)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(RunScanWindow.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            RunScanWindow.sizePolicy().hasHeightForWidth())
         RunScanWindow.setSizePolicy(sizePolicy)
         RunScanWindow.setMinimumSize(QtCore.QSize(800, 575))
         RunScanWindow.setDocumentMode(False)
@@ -27,14 +29,17 @@ class Ui_RunScanWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.suggestionLabelVLayout = QtWidgets.QVBoxLayout()
-        self.suggestionLabelVLayout.setSizeConstraint(QtWidgets.QLayout.SetMinimumSize)
+        self.suggestionLabelVLayout.setSizeConstraint(
+            QtWidgets.QLayout.SetMinimumSize)
         self.suggestionLabelVLayout.setContentsMargins(-1, 0, 0, -1)
         self.suggestionLabelVLayout.setObjectName("suggestionLabelVLayout")
         self.analysisSuggestionLabe = QtWidgets.QLabel(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.analysisSuggestionLabe.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.analysisSuggestionLabe.sizePolicy().hasHeightForWidth())
         self.analysisSuggestionLabe.setSizePolicy(sizePolicy)
         self.analysisSuggestionLabe.setMinimumSize(QtCore.QSize(780, 300))
         font = QtGui.QFont()
@@ -52,15 +57,18 @@ class Ui_RunScanWindow(object):
         self.verticalLayout.setSpacing(6)
         self.verticalLayout.setObjectName("verticalLayout")
         self.dataTable = QtWidgets.QTableWidget(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.dataTable.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(
+            self.dataTable.sizePolicy().hasHeightForWidth())
         self.dataTable.setSizePolicy(sizePolicy)
         self.dataTable.setMinimumSize(QtCore.QSize(780, 300))
         self.dataTable.setBaseSize(QtCore.QSize(780, 300))
         self.dataTable.setMouseTracking(False)
-        self.dataTable.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.dataTable.setSizeAdjustPolicy(
+            QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.dataTable.setShowGrid(True)
         self.dataTable.setGridStyle(QtCore.Qt.SolidLine)
         self.dataTable.setRowCount(1)
@@ -89,18 +97,26 @@ class Ui_RunScanWindow(object):
         self.menubar = QtWidgets.QMenuBar(RunScanWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
         self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
         RunScanWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(RunScanWindow)
         self.statusbar.setObjectName("statusbar")
         RunScanWindow.setStatusBar(self.statusbar)
+        self.actionSave = QtWidgets.QAction(RunScanWindow)
+        self.actionSave.setObjectName("actionSave")
+        self.menuFile.addAction(self.actionSave)
+        self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(RunScanWindow)
         QtCore.QMetaObject.connectSlotsByName(RunScanWindow)
 
     def retranslateUi(self, RunScanWindow):
         _translate = QtCore.QCoreApplication.translate
-        RunScanWindow.setWindowTitle(_translate("RunScanWindow", "Run Analysis"))
-        self.analysisSuggestionLabe.setText(_translate("RunScanWindow", "Analysis Suggestion:"))
+        RunScanWindow.setWindowTitle(
+            _translate("RunScanWindow", "Run Analysis"))
+        self.analysisSuggestionLabe.setText(
+            _translate("RunScanWindow", "Analysis Suggestion:"))
         self.dataTable.setSortingEnabled(True)
         item = self.dataTable.horizontalHeaderItem(0)
         item.setText(_translate("RunScanWindow", "CVE ID"))
@@ -110,6 +126,8 @@ class Ui_RunScanWindow(object):
         item.setText(_translate("RunScanWindow", "Engineering Hrs"))
         item = self.dataTable.horizontalHeaderItem(3)
         item.setText(_translate("RunScanWindow", "Description"))
+        self.menuFile.setTitle(_translate("RunScanWindow", "File"))
+        self.actionSave.setText(_translate("RunScanWindow", "&Save"))
 
 
 if __name__ == "__main__":
