@@ -12,6 +12,6 @@
 
 - This now requires an extra python module to work, XlsxWriter. This module uses only standard libary
 
-'''
+```
 pip install XlsxWriter
-'''
+```
