@@ -33,6 +33,11 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.ui.dataTable.resizeRowsToContents()
         self.ui.dataTable.setEditTriggers(
             QtWidgets.QAbstractItemView.NoEditTriggers)
+
+        # The function below can be used to sort a certain column from highest at top to lowest. 
+        # This example uses the Engineering Hrs column. 
+        #self.ui.dataTable.sortByColumn(2, QtCore.Qt.DescendingOrder)
+
         self.ui.dataTable.cellDoubleClicked.connect(
             self.cve_id_table_cell_pressed)
         self.ui.actionSave.triggered.connect(self.exporter)
@@ -96,16 +101,14 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
     def parse_xml(self, filePath):
         file = open(filePath, "r")
-
         cve_id_nessus = []
 
-        # This is suppose to create the tree thing so
-        # that we can parse the nessus file
+        # Create parsing tree to for scanning Nessus file.
         tree = ET.ElementTree(file=file)
         root = tree.getroot()
 
-        # add the cve_ids found in the file to a list
-        # return that list
+        # Add the cve_ids found in the source file to a list.
+        # Return the list.
         for child in root.iter('cve'):
             cve_id_nessus.append(child.text)
 
@@ -114,10 +117,11 @@ class RunScanGUI(QtWidgets.QMainWindow):
     def populate_table(self, table, filepath, bussiness_info):
         cve_id_nessus = []
         cve_id_nessus = self.parse_xml(filepath)
+
         db_handler = HandleDB()
         vuln_list = []
-        counter = 0  # counter for what row we are on for the table output
-
+        row_counter = 0 
+        
         # create the list of vuln objects for each cve
         # id that is a match from the nessus file
         for cve in cve_id_nessus:
@@ -132,14 +136,14 @@ class RunScanGUI(QtWidgets.QMainWindow):
         # Each item has to be a str for it to work
         for vuln in vuln_list:
             table.setItem(
-                counter, 0, QtWidgets.QTableWidgetItem(str(vuln.cve_id)))
+                row_counter, 0, QtWidgets.QTableWidgetItem(str(vuln.cve_id)))
             table.setItem(
-                counter, 1, QtWidgets.QTableWidgetItem(str(vuln.cost_hour)))
+                row_counter, 1, QtWidgets.QTableWidgetItem(str(vuln.cost_hour)))
             table.setItem(
-                counter, 2, QtWidgets.QTableWidgetItem(str(vuln.total_hours)))
+                row_counter, 2, QtWidgets.QTableWidgetItem(str(vuln.total_hours)))
             table.setItem(
-                counter, 3, QtWidgets.QTableWidgetItem(vuln.description))
-            counter += 1
+                row_counter, 3, QtWidgets.QTableWidgetItem(vuln.description))
+            row_counter += 1
 
         """
         for cve in cve_id_nessus:
@@ -149,15 +153,15 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 # pull matching cost from db
                 cost_hours = db_handler.pull_cost_hrs(cve)
                 total_hours = db_handler.pull_total_hrs(cve)
-                table.setItem(counter_2, 0,
+                table.setItem(row_counter_2, 0,
                               QtWidgets.QTableWidgetItem(cve))  # set first column to cve_id
-                table.setItem(counter_2, 1,
+                table.setItem(row_counter_2, 1,
                               QtWidgets.QTableWidgetItem(str(cost_hours[0])))  # set secound column to cost
-                table.setItem(counter_2, 2,
+                table.setItem(row_counter_2, 2,
                               QtWidgets.QTableWidgetItem(str(total_hours[0])))  # set third column to total hours
                 # remove the brackets and the junk at the end from description
                 description = description[2:-5]
-                table.setItem(counter_2, 3,
+                table.setItem(row_counter_2, 3,
                               QtWidgets.QTableWidgetItem(description))  # set third column to description
-                counter_2 = counter_2 + 1
+                row_counter_2 = row_counter_2 + 1
         """

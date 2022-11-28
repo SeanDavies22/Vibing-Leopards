@@ -10,6 +10,8 @@ from MainWindow import Ui_MainWindow
 from RunScanWindow_actions import RunScanGUI
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import xml.etree.ElementTree as ET
+
 
 class MainGUI(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -62,8 +64,8 @@ class MainGUI(QtWidgets.QMainWindow):
         # Checks if file is able to be read or if a file was selected or not.
         # Displays an error Pop-up if conditions match.
         try:
-            file = QtWidgets.QFileDialog.getOpenFileName(self, "File Explorer", "", "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)",
-                                                         options=options)
+            file = QtWidgets.QFileDialog.getOpenFileName(
+                self, "File Explorer", "", "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)", options=options)
 
             # Set the filepath to the filepath string in the tuple.
             self.filePath = file[0]
@@ -90,11 +92,26 @@ class MainGUI(QtWidgets.QMainWindow):
         if (self.businessType == 0):
             self.show_error_pop_up(
                 "No business type selected. Please select a business type.")
-        if ((self.filePath != None) and (self.businessSize > 0) and (self.businessType > 0)):
+        if (self.check_xml_parsing(self.filePath) == False):
+            self.show_error_pop_up(
+                "Source file is not parseable. Please choose another XML-like file.")
+        if ((self.filePath != None) and (self.businessSize > 0) and (self.businessType > 0) and (self.check_xml_parsing(self.filePath) == True)):
             self.rsg = RunScanGUI(self.filePath, self.business_info)
             self.rsg.show_gui()
             table = self.rsg.ui.dataTable
             table.show()
+
+
+    def check_xml_parsing(self, filePath):
+        file_parseable = True
+        try:
+            file = open(filePath, 'r')
+            tree = ET.ElementTree(file=file)
+        except (ET.ParseError, TypeError) as err:
+            file_parseable = False
+
+        return file_parseable
+
 
     # Action handling methods
     def about_program_action_handling(self):
