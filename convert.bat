@@ -24,7 +24,7 @@ echo   "\ /"
 echo    "V"
 echo Start Converting Files Please wait.
 
-call python -m PyQt5.uic.pyuic -x "%UiName%" -o "%PyName%.pyw"
+call python -m PyQt5.uic.pyuic -x "%UiName%" -o "%PyName%.py"
 
 echo Job Completed.
 pause

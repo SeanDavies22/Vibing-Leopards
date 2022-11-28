@@ -1,40 +1,7 @@
-## Purpose is to create a Class that will contain each row's info from the database.
+## Purpose is to work on being able to re-size the run scan window
 
-The following is the general blueprint for how the class will look; however things may change.
+- Run scan window can now be resized by the user and the ratio will stay (mostly) the same
 
-I would make this a Struct, but apparently python doesn't need them.  
+- Might change some of the font sizes, on my 32" full screen, output doesn't look great, but there isn't much to fill out empty space
 
-```
-class VulnInfo:
-    cve_id = ""
-    cost_hour = 0
-    total_hours = 0
-    item_name = ""
-    item_cost = 0
-    total_cost = 0
-    description = ""
-    bussiness_info = []  # 0 for size 1 for type
-    db_handler = HandleDB()
-
-    def __init__(self, bussiness_info):
-        self.cve_id = ""
-        self.item_name = ""
-        self.item_cost = 0
-        self.bussiness_info = bussiness_info
-        self.cost_hour = 0
-        self.total_hours = 0
-        self.description = ""
-
-    def __init__(self, cve_id, bussiness_info):
-        self.cve_id = cve_id
-        # self.db_handler.pull_item_name(cve_id) # TODO:Database doesn't contain this info yet
-        self.item_name = ""
-        # self.db_handler.pull_item_cost(cve_id)  # TODO:Database doesn't contain this info yet
-        self.item_cost = 0
-        self.bussiness_info = bussiness_info
-        self.cost_hour = self.db_handler.pull_cost_hrs(cve_id)
-        self.total_hours = self.db_handler.pull_total_hrs(cve_id)
-        self.description = self.db_handler.pull_description(cve_id)
-        # git rid of the junk at the tails of the description
-        self.description = self.description[2:-5]
-```
+- Looks rather good on a normal 1080p screen

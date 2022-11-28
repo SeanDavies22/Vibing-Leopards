@@ -29,9 +29,11 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.populate_table(self.ui.dataTable,
                             self.filePath, self.business_info)
         self.ui.dataTable.resizeColumnsToContents()
-
-        self.ui.dataTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.ui.dataTable.cellDoubleClicked.connect(self.cve_id_table_cell_pressed)
+        self.ui.dataTable.resizeRowsToContents()
+        self.ui.dataTable.setEditTriggers(
+            QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.ui.dataTable.cellDoubleClicked.connect(
+            self.cve_id_table_cell_pressed)
 
     def cve_id_table_cell_pressed(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
