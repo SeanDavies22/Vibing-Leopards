@@ -12,7 +12,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 import xml.etree.ElementTree as ET
 
-
 class MainGUI(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -101,7 +100,6 @@ class MainGUI(QtWidgets.QMainWindow):
             table = self.rsg.ui.dataTable
             table.show()
 
-
     def check_xml_parsing(self, filePath):
         file_parseable = True
         try:
@@ -111,7 +109,6 @@ class MainGUI(QtWidgets.QMainWindow):
             file_parseable = False
 
         return file_parseable
-
 
     # Action handling methods
     def about_program_action_handling(self):

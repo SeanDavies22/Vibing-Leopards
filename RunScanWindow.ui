@@ -41,7 +41,7 @@
       <property name="rightMargin">
        <number>0</number>
       </property>
-      <item>
+      <item alignment="Qt::AlignTop">
        <widget class="QLabel" name="analysisSuggestionLabe">
         <property name="sizePolicy">
          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
@@ -159,12 +159,17 @@
         </column>
         <column>
          <property name="text">
-          <string>Rate</string>
+          <string>Rate (dollars per hr)</string>
          </property>
         </column>
         <column>
          <property name="text">
           <string>Engineering Hrs</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Severity</string>
          </property>
         </column>
         <column>

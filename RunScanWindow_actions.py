@@ -14,6 +14,7 @@ from VulnInfo import VulnInfo
 import os
 import sys
 import xlsxwriter
+import math
 sys.path.append(os.getcwd()) 
 
 
@@ -26,7 +27,6 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.business_info = bussiness_info
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
-        self.ui.dataTable.setColumnCount(4)
         self.populate_table(self.ui.dataTable,
                             self.filePath, self.business_info)
         self.ui.dataTable.resizeColumnsToContents()
@@ -47,18 +47,20 @@ class RunScanGUI(QtWidgets.QMainWindow):
     def cve_id_table_cell_pressed(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
             column = cell.column()
-            if (column== 0):
+            if (column == 0):
                 row = cell.row()
+                cve_id = self.ui.dataTable.item(row, 0).text()
                 rate = self.ui.dataTable.item(row, 1).text()
                 hours = self.ui.dataTable.item(row, 2).text()
-                cve_id = self.ui.dataTable.item(row, 0).text()
-                
+                severity = self.ui.dataTable.item(row, 3).text()
                 num_hours = float(hours)
                 num_rate = int(rate)
-                #total_cost = 
+                total_cost = round((num_hours * num_rate), 2)
 
-                self.show_info_pop_up("The rate for this vulnerability is: " + str(rate) + "\n\nThe Engineering hours of this item is: " + str(hours), cve_id=cve_id)
-
+                self.show_info_pop_up("The pay rate for this vulnerability is: " + str(rate) + 
+                                      "\n\nThe engineering hours required to fix this: " + str(hours) + 
+                                      "\n\nThe total cost for fixing this vulnerability is: " + str(total_cost) + 
+                                      "\n\nThe severity of this vilnerability is: " + str(severity), cve_id=cve_id)
 
     def exporter(self, filename=None):
         if not filename:
@@ -138,6 +140,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
         # set row count to the number of vulns found
         table.setRowCount(vuln_list.__len__())
 
+
         if (len(vuln_list) == 0):
             self.show_error_pop_up(
                 "Source file has no elements.")
@@ -153,7 +156,9 @@ class RunScanGUI(QtWidgets.QMainWindow):
             table.setItem(
                 row_counter, 2, QtWidgets.QTableWidgetItem(str(vuln.total_hours)))
             table.setItem(
-                row_counter, 3, QtWidgets.QTableWidgetItem(vuln.description))
+                row_counter, 3, QtWidgets.QTableWidgetItem(str(vuln.severity)))
+            table.setItem(
+                row_counter, 4, QtWidgets.QTableWidgetItem(vuln.description))
             row_counter += 1
 
         """

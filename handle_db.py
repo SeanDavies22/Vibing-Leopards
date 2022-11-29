@@ -104,7 +104,14 @@ class HandleDB():
         self.cursor.execute(
             "SELECT hours_fix FROM vul_cost WHERE cve_id =?", (cve_id,))
         total_hrs = self.cursor.fetchone()
-        return int(total_hrs[0])
+        return float(total_hrs[0])
+
+    def pull_severity(self, cve_id):
+        # Pull the total hours to fix from the database
+        self.cursor.execute(
+            "SELECT severity FROM vul_cost WHERE cve_id =?", (cve_id,))
+        severity = self.cursor.fetchone()
+        return  str(severity[0])
 
     def push_cost_data(self, description, cost):
         # Push the vulnerability cost to the database
