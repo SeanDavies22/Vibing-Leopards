@@ -29,6 +29,7 @@ class MainGUI(QtWidgets.QMainWindow):
         self.businessSize = 0
         self.businessType = 0
 
+        self.setWindowIcon(QtGui.QIcon('vl_img.jpg'))
         # TODO: Might want to merge businessSize and businessType into one variable.
         self.business_info = []
 
@@ -112,7 +113,17 @@ class MainGUI(QtWidgets.QMainWindow):
 
     # Action handling methods
     def about_program_action_handling(self):
-        aboutProgramText = "Welcome to the Cost-Benefit Analysis Tool. Some more stuff will be in here later.\n\n Developed By: Vibing Leopards"
+        
+        # This sets about tab to show this text. Used .join keep it from being one giant line. 
+        aboutProgramText = '\n'.join(("Welcome to the Cost-Benefit Analysis Tool. This tool was created ", 
+                                     "for use with a Nessus vulnerability scan export file and a database ",
+                                     "of existing vulnerabilities. The Cost-Benefit Analysis Tool will",
+                                     "compare against said database and will list the common vulnerabilites ",
+                                     "along with their attributes, and will form reccomendations based",
+                                     "on the resulting vulnerabilities.", 
+                                     "\nDeveloped By: Vibing Leopards (2022)",
+                                     "Casey Staples, Nicholas Natale, Daniel Ortiz, Sean Davies, Luck Heck"))
+
         self.show_info_pop_up(aboutProgramText)
 
     def small_business_radio_button_action_handling(self):
