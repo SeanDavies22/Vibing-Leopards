@@ -83,22 +83,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
                         row += 1
                 row = 0
                 col += 1
-           # self.export(work_sheet)
         work_book.close()
-
-    # def export(self, work_sheet):
-        #row = 0
-        #col = 0
-        # for i in range(self.ui.dataTable.columnCount()):
-        # for x in range(self.ui.dataTable.rowCount()):
-        # try:
-        #  text = str(self.ui.dataTable.item(row, col).text())
-        #   work_sheet._write(row, col, str(text))
-        #   row += 1
-        # except AttributeError:
-        #   row += 1
-        #row = 0
-        #col += 1
 
     def show_gui(self):
         self.rsg = RunScanGUI(self.filePath, self.business_info)
@@ -158,29 +143,26 @@ class RunScanGUI(QtWidgets.QMainWindow):
             table.setItem(
                 row_counter, 3, QtWidgets.QTableWidgetItem(str(vuln.severity)))
             table.setItem(
-                row_counter, 4, QtWidgets.QTableWidgetItem(vuln.description))
+                row_counter, 5, QtWidgets.QTableWidgetItem(vuln.description))
+            if "Chrome" in vuln.description:
+                table.setItem(
+                    row_counter, 4, QtWidgets.QTableWidgetItem("Chromuim"))
+            elif "FireFox" in vuln.description:
+                table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Firefox"))
+            elif "Safari" in vuln.description:
+                table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Safari"))
+            elif "Edge" in vuln.description:
+                table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Edge"))
+            elif "Windows" in vuln.description:
+                table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Windows"))
+            elif "Linux" in vuln.description:
+                table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Linux"))
+            elif "Mac" in vuln.description:
+                table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Mac"))
+            else:
+                table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Unknown"))
             row_counter += 1
-
-        """
-        for cve in cve_id_nessus:
-            if db_handler.check_cve_id(cve):
-                description = db_handler.pull_description(
-                    cve)  # pull matching description from db
-                # pull matching cost from db
-                cost_hours = db_handler.pull_cost_hrs(cve)
-                total_hours = db_handler.pull_total_hrs(cve)
-                table.setItem(row_counter_2, 0,
-                              QtWidgets.QTableWidgetItem(cve))  # set first column to cve_id
-                table.setItem(row_counter_2, 1,
-                              QtWidgets.QTableWidgetItem(str(cost_hours[0])))  # set secound column to cost
-                table.setItem(row_counter_2, 2,
-                              QtWidgets.QTableWidgetItem(str(total_hours[0])))  # set third column to total hours
-                # remove the brackets and the junk at the end from description
-                description = description[2:-5]
-                table.setItem(row_counter_2, 3,
-                              QtWidgets.QTableWidgetItem(description))  # set third column to description
-                row_counter_2 = row_counter_2 + 1
-        """
+            
 
     def show_error_pop_up(self, errorMessage):
             msg = QtWidgets.QMessageBox()

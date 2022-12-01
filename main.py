@@ -28,7 +28,7 @@ class MainGUI(QtWidgets.QMainWindow):
         self.filePath = None
         self.businessSize = 0
         self.businessType = 0
-
+                                                                                                                                                
         self.setWindowIcon(QtGui.QIcon('vl_img.jpg'))
         # TODO: Might want to merge businessSize and businessType into one variable.
         self.business_info = []
