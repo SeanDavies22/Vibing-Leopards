@@ -26,6 +26,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.filePath = filePath
         self.business_size = bussiness_size
         self.business_type = business_type
+        self.total_cost = 0
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
         self.populate_table(self.ui.dataTable, self.filePath)
@@ -33,6 +34,10 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.ui.dataTable.resizeRowsToContents()
         self.ui.dataTable.setEditTriggers(
             QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.total_cost = self.get_total_cost()
+
+        # Setup the analysis labels.
+        self.ui.totalCostLabel.setText("The total cost for all vulnerabilities is: $" + str(self.total_cost))
 
         # Action handling methods.
         self.ui.dataTable.cellDoubleClicked.connect(
@@ -48,16 +53,23 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 rate = self.ui.dataTable.item(row, 1).text()
                 hours = self.ui.dataTable.item(row, 2).text()
                 severity = self.ui.dataTable.item(row, 3).text()
+                if severity == 'H':
+                    severity_full_text = "High"
+                elif severity == "M":
+                    severity_full_text = "Medium"
+                elif severity == "L":
+                    severity_full_text = "Low"
+
                 num_hours = float(hours)
                 num_rate = int(rate)
                 business_size = float(self.business_size)
                 business_type = float(self.business_type)
-                total_cost = round((num_hours * num_rate), 2) * business_size * business_type
+                total_cost = round((num_hours * num_rate * business_size * business_type), 2)
 
-                self.show_info_pop_up("The pay rate for this vulnerability is: " + str(rate) + 
-                                      "\n\nThe engineering hours required to fix this: " + str(hours) + 
-                                      "\n\nThe total cost for fixing this vulnerability is: " + str(total_cost) + 
-                                      "\n\nThe severity of this vilnerability is: " + str(severity), cve_id=cve_id) 
+                self.show_info_pop_up("The pay rate for this vulnerability is: $" + str(rate) + " per hour." + 
+                                      "\n\nThe engineering hours required to fix this: " + str(hours) + " hrs." +  
+                                      "\n\nThe total cost for fixing this vulnerability is: $" + str(total_cost) + 
+                                      "\n\nThe severity of this vulnerability is: " + str(severity_full_text) + ".", cve_id=cve_id) 
 
     # Let's the user save the table to an excel file.     
     def exporter(self, filename=None):
@@ -175,3 +187,11 @@ class RunScanGUI(QtWidgets.QMainWindow):
             msg.setWindowTitle(cve_id)
             msg.setIcon(QtWidgets.QMessageBox.Information)
             x = msg.exec_()
+
+    def get_total_cost(self):
+        temp_sum = 0
+        for row in range(self.ui.dataTable.rowCount()):
+            temp_sum += float(self.ui.dataTable.item(row, 1).text()) * float(self.ui.dataTable.item(row, 2).text())
+        total_cost = temp_sum * self.business_size * self.business_type
+
+        return total_cost
