@@ -11,26 +11,23 @@ class VulnInfo:
     total_cost = 0
     description = ""
     severity = ""
-    bussiness_info = []  # 0 for size 1 for type
     db_handler = HandleDB()
 
-    def __init__(self, bussiness_info):
+    def __init__(self):
         self.cve_id = ""
         self.item_name = ""
         self.item_cost = 0
-        self.bussiness_info = bussiness_info
         self.cost_hour = 0
         self.total_hours = 0
         self.description = ""
         self.severity = ""
 
-    def __init__(self, cve_id, bussiness_info):
+    def __init__(self, cve_id):
         self.cve_id = cve_id
         # self.db_handler.pull_item_name(cve_id) # TODO:Database doesn't contain this info yet
         self.item_name = ""
         # self.db_handler.pull_item_cost(cve_id)  # TODO:Database doesn't contain this info yet
         self.item_cost = 0
-        self.bussiness_info = bussiness_info
         self.cost_hour = self.db_handler.pull_cost_hrs(cve_id)
         self.total_hours = self.db_handler.pull_total_hrs(cve_id)
         self.description = self.db_handler.pull_description(cve_id)

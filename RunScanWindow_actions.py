@@ -19,25 +19,20 @@ sys.path.append(os.getcwd())
 
 
 class RunScanGUI(QtWidgets.QMainWindow):
-    def __init__(self, filePath, bussiness_info, *args, **kwargs):
+    def __init__(self, filePath, bussiness_size, business_type, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Setup the UI for the Run Analysis window
         self.filePath = filePath
-        self.business_info = bussiness_info
+        self.business_size = bussiness_size
+        self.business_type = business_type
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
-        self.populate_table(self.ui.dataTable,
-                            self.filePath, self.business_info)
+        self.populate_table(self.ui.dataTable, self.filePath)
         self.ui.dataTable.resizeColumnsToContents()
         self.ui.dataTable.resizeRowsToContents()
         self.ui.dataTable.setEditTriggers(
             QtWidgets.QAbstractItemView.NoEditTriggers)
-
-        # The function below can be used to sort a certain column from highest at top to lowest. 
-        # This example uses the Engineering Hrs column. 
-        #self.ui.dataTable.sortByColumn(2, QtCore.Qt.DescendingOrder)
-
 
         # Action handling methods.
         self.ui.dataTable.cellDoubleClicked.connect(
@@ -55,13 +50,16 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 severity = self.ui.dataTable.item(row, 3).text()
                 num_hours = float(hours)
                 num_rate = int(rate)
-                total_cost = round((num_hours * num_rate), 2)
+                business_size = float(self.business_size)
+                business_type = float(self.business_type)
+                total_cost = round((num_hours * num_rate), 2) * business_size * business_type
 
                 self.show_info_pop_up("The pay rate for this vulnerability is: " + str(rate) + 
                                       "\n\nThe engineering hours required to fix this: " + str(hours) + 
                                       "\n\nThe total cost for fixing this vulnerability is: " + str(total_cost) + 
-                                      "\n\nThe severity of this vilnerability is: " + str(severity), cve_id=cve_id)
+                                      "\n\nThe severity of this vilnerability is: " + str(severity), cve_id=cve_id) 
 
+    # Let's the user save the table to an excel file.     
     def exporter(self, filename=None):
         if not filename:
             filename = QtWidgets.QFileDialog.getSaveFileName(
@@ -86,7 +84,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
         work_book.close()
 
     def show_gui(self):
-        self.rsg = RunScanGUI(self.filePath, self.business_info)
+        self.rsg = RunScanGUI(self.filePath, self.business_size, self.business_type)
         self.rsg.show()
 
     def hide_gui(self):
@@ -108,7 +106,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
         return cve_id_nessus
 
-    def populate_table(self, table, filepath, bussiness_info):
+    def populate_table(self, table, filepath):
         cve_id_nessus = []
         cve_id_nessus = self.parse_xml(filepath)
 
@@ -120,7 +118,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
         # id that is a match from the nessus file
         for cve in cve_id_nessus:
             if db_handler.check_cve_id(cve):
-                vuln_list.append(VulnInfo(cve, bussiness_info))
+                vuln_list.append(VulnInfo(cve))
 
         # set row count to the number of vulns found
         table.setRowCount(vuln_list.__len__())
