@@ -32,8 +32,6 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.populate_table(self.ui.dataTable, self.filePath)
         self.ui.dataTable.resizeColumnsToContents()
         self.ui.dataTable.resizeRowsToContents()
-        self.ui.dataTable.setEditTriggers(
-            QtWidgets.QAbstractItemView.NoEditTriggers)
         self.total_cost = self.get_total_cost()
 
         # Setup the analysis labels.
@@ -43,6 +41,15 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.ui.dataTable.cellDoubleClicked.connect(
             self.cve_id_table_cell_pressed)
         self.ui.actionSave.triggered.connect(self.exporter)
+
+
+    # allow the column to be edited by user
+    def cve_id_table_edit_comment(self):
+        for cell in self.ui.dataTable.selectionModel().selectedIndexes():
+            column = cell.column()
+            if (column == 4):
+                self.ui.dataTable.editItem(self.ui.dataTable.item(cell.row(), cell.column()))
+                
 
     def cve_id_table_cell_pressed(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
@@ -70,6 +77,9 @@ class RunScanGUI(QtWidgets.QMainWindow):
                                       "\n\nThe engineering hours required to fix this: " + str(hours) + " hrs." +  
                                       "\n\nThe total cost for fixing this vulnerability is: $" + str(total_cost) + 
                                       "\n\nThe severity of this vulnerability is: " + str(severity_full_text) + ".", cve_id=cve_id) 
+            elif (column == 6):
+                row = cell.row()
+                self.ui.dataTable.editItem(self.ui.dataTable.item(row, column))
 
     # Let's the user save the table to an excel file.     
     def exporter(self, filename=None):
@@ -93,6 +103,17 @@ class RunScanGUI(QtWidgets.QMainWindow):
                         row += 1
                 row = 0
                 col += 1
+            row = self.ui.dataTable.rowCount() + 1
+            col = 2
+            try :
+                work_sheet.write(row, col, "Total Cost: $")
+            except AttributeError:  
+                pass
+            row += 1
+            try :
+                work_sheet.write(row, col, str(self.total_cost))
+            except AttributeError:
+                pass
         work_book.close()
 
     def show_gui(self):
@@ -171,6 +192,8 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Mac"))
             else:
                 table.setItem(row_counter, 4, QtWidgets.QTableWidgetItem("Unknown"))
+
+            table.setItem(row_counter, 6, QtWidgets.QTableWidgetItem(None))
             row_counter += 1
             
 

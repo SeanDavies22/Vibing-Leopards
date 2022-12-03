@@ -152,6 +152,16 @@
           <string>Description</string>
          </property>
         </column>
+        <column>
+         <property name="text">
+          <string>Comments</string>
+         </property>
+        </column>
+        <item row="0" column="6">
+         <property name="text">
+          <string/>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -166,7 +176,6 @@
         <property name="font">
          <font>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -225,7 +234,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>37</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
