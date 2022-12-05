@@ -91,7 +91,30 @@ class RunScanGUI(QtWidgets.QMainWindow):
             print(filename[0])
             work_book = xlsxwriter.Workbook(filename[0])
             work_sheet = work_book.add_worksheet()
-            row = 0
+            bold = work_book.add_format({'bold': True})
+            for col in range(self.ui.dataTable.columnCount()):
+                if self.ui.dataTable.horizontalHeaderItem(col).text() == "Comments":
+                    work_sheet.set_column(col, col, 50)
+                    work_sheet.write(0, col, self.ui.dataTable.horizontalHeaderItem(col).text(), bold)
+                elif self.ui.dataTable.horizontalHeaderItem(col).text() == "CVE ID":
+                    work_sheet.set_column(col, col, 55)
+                    work_sheet.write(0, col, self.ui.dataTable.horizontalHeaderItem(col).text(), bold)
+                elif self.ui.dataTable.horizontalHeaderItem(col).text() == "Severity":
+                    work_sheet.set_column(col, col, 30)
+                    work_sheet.write(0, col, self.ui.dataTable.horizontalHeaderItem(col).text(), bold)
+                elif self.ui.dataTable.horizontalHeaderItem(col).text() == "Rate per hr":
+                    work_sheet.set_column(col, col , 30)
+                    work_sheet.write(0, col, self.ui.dataTable.horizontalHeaderItem(col).text(), bold)
+                elif self.ui.dataTable.horizontalHeaderItem(col).text() == "Engineering Hrs":
+                    work_sheet.set_column(col, col ,30)
+                    work_sheet.write(0, col, self.ui.dataTable.horizontalHeaderItem(col).text(), bold)
+                elif self.ui.dataTable.horizontalHeaderItem(col).text() == "Description":
+                    work_sheet.set_column(col, col ,200)
+                    work_sheet.write(0, col, self.ui.dataTable.horizontalHeaderItem(col).text(), bold)
+                elif self.ui.dataTable.horizontalHeaderItem(col).text() == "OS":
+                    work_sheet.set_column(col, col, 30)
+                    work_sheet.write(0, col, self.ui.dataTable.horizontalHeaderItem(col).text(), bold)
+            row = 1
             col = 0
             for i in range(self.ui.dataTable.columnCount()):
                 for x in range(self.ui.dataTable.rowCount()):
@@ -101,12 +124,12 @@ class RunScanGUI(QtWidgets.QMainWindow):
                         row += 1
                     except AttributeError:
                         row += 1
-                row = 0
+                row = 1
                 col += 1
             row = self.ui.dataTable.rowCount() + 1
             col = 2
             try :
-                work_sheet.write(row, col, "Total Cost: $")
+                work_sheet.write(row, col, "Total Cost", bold)
             except AttributeError:  
                 pass
             row += 1

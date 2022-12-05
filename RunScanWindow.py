@@ -137,7 +137,7 @@ class Ui_RunScanWindow(object):
         item = self.dataTable.horizontalHeaderItem(0)
         item.setText(_translate("RunScanWindow", "CVE ID"))
         item = self.dataTable.horizontalHeaderItem(1)
-        item.setText(_translate("RunScanWindow", "Rate (dollars per hr)"))
+        item.setText(_translate("RunScanWindow", "Rate per hr"))
         item = self.dataTable.horizontalHeaderItem(2)
         item.setText(_translate("RunScanWindow", "Engineering Hrs"))
         item = self.dataTable.horizontalHeaderItem(3)
