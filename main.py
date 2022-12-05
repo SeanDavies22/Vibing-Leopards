@@ -9,8 +9,9 @@
 from MainWindow import Ui_MainWindow
 from RunScanWindow_actions import RunScanGUI
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from os import path
 import xml.etree.ElementTree as ET
+
 
 class MainGUI(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -28,7 +29,7 @@ class MainGUI(QtWidgets.QMainWindow):
         self.filePath = None
         self.businessSize = 0
         self.businessType = 0
-                                                                                                                                                
+
         self.setWindowIcon(QtGui.QIcon('vl_img.jpg'))
         # TODO: Might want to merge businessSize and businessType into one variable.
         self.business_info = []
@@ -65,7 +66,7 @@ class MainGUI(QtWidgets.QMainWindow):
         # Displays an error Pop-up if conditions match.
         try:
             file = QtWidgets.QFileDialog.getOpenFileName(
-                self, "File Explorer", "", "Nessus Scan (*.nessus);;XML(*.xml);;All Files (*)", options=options)
+                self, "File Explorer", "", "Nessus Scan (*.nessus);;Excel(*.xlsx);;XML(*.xml);;All Files (*)", options=options)
 
             # Set the filepath to the filepath string in the tuple.
             self.filePath = file[0]
@@ -83,20 +84,32 @@ class MainGUI(QtWidgets.QMainWindow):
         self.ui.fileNameLabel.setText(self.filePath)
 
     def run_scan_button_action_handling(self):
-        if (self.filePath == None):
+
+        # split file name to get extension for excel import
+        file_extension = path.splitext(self.filePath)[1]
+
+        if (file_extension == ".xlsx"):
+            self.rsg = RunScanGUI(
+                self.filePath, self.businessSize, self.businessType)
+            self.rsg.show_gui()
+            table = self.rsg.ui.dataTable
+            table.show()
+
+        elif (self.filePath == None):
             self.show_error_pop_up(
                 "No input file selected. Please select an input file.")
-        if (self.businessSize == 0):
+        elif (self.businessSize == 0):
             self.show_error_pop_up(
                 "No business size selected. Please select a business size.")
-        if (self.businessType == 0):
+        elif (self.businessType == 0):
             self.show_error_pop_up(
                 "No business type selected. Please select a business type.")
-        if (self.check_xml_parsing(self.filePath) == False):
+        elif (self.check_xml_parsing(self.filePath) == False):
             self.show_error_pop_up(
                 "Source file is not parseable. Please choose another XML-like file.")
-        if ((self.filePath != None) and (self.businessSize > 0) and (self.businessType > 0) and (self.check_xml_parsing(self.filePath) == True)):
-            self.rsg = RunScanGUI(self.filePath, self.businessSize, self.businessType)
+        elif ((self.filePath != None) and (self.businessSize > 0) and (self.businessType > 0) and (self.check_xml_parsing(self.filePath) == True)):
+            self.rsg = RunScanGUI(
+                self.filePath, self.businessSize, self.businessType)
             self.rsg.show_gui()
             table = self.rsg.ui.dataTable
             table.show()
@@ -113,16 +126,16 @@ class MainGUI(QtWidgets.QMainWindow):
 
     # Action handling methods
     def about_program_action_handling(self):
-        
-        # This sets about tab to show this text. Used .join keep it from being one giant line. 
-        aboutProgramText = '\n'.join(("Welcome to the Cost-Benefit Analysis Tool. This tool was created ", 
+
+        # This sets about tab to show this text. Used .join keep it from being one giant line.
+        aboutProgramText = '\n'.join(("Welcome to the Cost-Benefit Analysis Tool. This tool was created ",
                                      "for use with a Nessus vulnerability scan export file and a database ",
-                                     "of existing vulnerabilities. The Cost-Benefit Analysis Tool will",
-                                     "compare against said database and will list the common vulnerabilites ",
-                                     "along with their attributes, and will form reccomendations based",
-                                     "on the resulting vulnerabilities.", 
-                                     "\nDeveloped By: Vibing Leopards (2022)",
-                                     "Casey Staples, Nicholas Natale, Daniel Ortiz, Sean Davies, Luck Heck"))
+                                      "of existing vulnerabilities. The Cost-Benefit Analysis Tool will",
+                                      "compare against said database and will list the common vulnerabilites ",
+                                      "along with their attributes, and will form reccomendations based",
+                                      "on the resulting vulnerabilities.",
+                                      "\nDeveloped By: Vibing Leopards (2022)",
+                                      "Casey Staples, Nicholas Natale, Daniel Ortiz, Sean Davies, Luck Heck"))
 
         self.show_info_pop_up(aboutProgramText)
 
