@@ -31,8 +31,6 @@ class MainGUI(QtWidgets.QMainWindow):
         self.businessType = 0
 
         self.setWindowIcon(QtGui.QIcon('vl_img.jpg'))
-        # TODO: Might want to merge businessSize and businessType into one variable.
-        self.business_info = []
 
         # Action handing linking to the appropriate methods
         self.ui.inputFileButton.clicked.connect(
@@ -59,9 +57,6 @@ class MainGUI(QtWidgets.QMainWindow):
     def input_file_button_action_handling(self):
         options = QtWidgets.QFileDialog.Options()
 
-        # The below comment will use the PyQt5 file explorer.
-        # options |= QtWidgets.QFileDialog.DontUseNativeDialog
-
         # Checks if file is able to be read or if a file was selected or not.
         # Displays an error Pop-up if conditions match.
         try:
@@ -84,16 +79,18 @@ class MainGUI(QtWidgets.QMainWindow):
         self.ui.fileNameLabel.setText(self.filePath)
 
     def run_scan_button_action_handling(self):
+        file_extension = ""
 
-        # split file name to get extension for excel import
-        file_extension = path.splitext(self.filePath)[1]
+        if self.filePath:
+            # split file name to get extension for excel import
+            file_extension = path.splitext(self.filePath)[1]
 
         if (file_extension == ".xlsx"):
             self.rsg = RunScanGUI(
                 self.filePath, self.businessSize, self.businessType)
             self.rsg.show_gui()
-            table = self.rsg.ui.dataTable
-            table.show()
+            #table = self.rsg.ui.dataTable
+            # table.show()
 
         elif (self.filePath == None):
             self.show_error_pop_up(
@@ -111,8 +108,8 @@ class MainGUI(QtWidgets.QMainWindow):
             self.rsg = RunScanGUI(
                 self.filePath, self.businessSize, self.businessType)
             self.rsg.show_gui()
-            table = self.rsg.ui.dataTable
-            table.show()
+            #table = self.rsg.ui.dataTable
+            # table.show()
 
     def check_xml_parsing(self, filePath):
         file_parseable = True

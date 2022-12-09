@@ -31,7 +31,6 @@ class VulnInfo:
         self.cost_hour = self.db_handler.pull_cost_hrs(cve_id)
         self.total_hours = self.db_handler.pull_total_hrs(cve_id)
         self.description = self.db_handler.pull_description(cve_id)
+        # git rid of the junk at the tails of the description
         self.description = self.description[2:-5]
         self.severity = self.db_handler.pull_severity(cve_id)
-        # git rid of the junk at the tails of the description
-        

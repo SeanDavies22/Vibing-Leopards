@@ -25,8 +25,8 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
         # Setup the UI for the Run Analysis window
         self.filePath = filePath
-        self.business_size = bussiness_size
-        self.business_type = business_type
+        self.business_size = 0
+        self.business_type = 0
         self.total_cost = 0
         self.file_extension = os.path.splitext(self.filePath)[1]
         self.ui = Ui_RunScanWindow()
@@ -36,6 +36,8 @@ class RunScanGUI(QtWidgets.QMainWindow):
             self.load_saved_table(self.ui.dataTable, self.filePath)
         else:
             self.populate_new_table(self.ui.dataTable, self.filePath)
+            self.business_size = bussiness_size
+            self.business_type = business_type
             self.total_cost = self.get_total_cost()
 
         self.ui.dataTable.resizeColumnsToContents()
@@ -77,10 +79,13 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
                 num_hours = float(hours)
                 num_rate = float(rate)
-                business_size = float(self.business_size)
-                business_type = float(self.business_type)
+               # business_size = int(self.business_size)
+               # business_type = int(self.business_type)
+                print("inside cve_id_table_cell_pressed")
+                print(self.business_size)
+                print(self.business_type)
                 total_cost = round(
-                    (num_hours * num_rate * business_size * business_type), 2)
+                    (num_hours * num_rate * self.business_size * self.business_type), 2)
 
                 self.show_info_pop_up("The pay rate for this vulnerability is: $" + str(rate) + " per hour." +
                                       "\n\nThe engineering hours required to fix this: " + str(hours) + " hrs." +
@@ -225,9 +230,12 @@ class RunScanGUI(QtWidgets.QMainWindow):
                     # Actual value is always one to the right of "Total Cost" cell
                     self.total_cost = dataframe.iat[row, col + 1]
                     # Bussiness_size info
-                    self.bussiness_size = dataframe.iat[row, col + 3]
+                    self.business_size = dataframe.iat[row, col + 3]
+                    print("inside load_saved_table")
+                    print(self.business_size)
                     # Bussiness_type info
-                    self.bussiness_type = dataframe.iat[row, col + 5]
+                    self.business_type = dataframe.iat[row, col + 5]
+                    print(self.business_type)
                     end_loop = True
 
                 if not end_loop:
