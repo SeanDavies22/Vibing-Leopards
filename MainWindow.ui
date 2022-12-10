@@ -335,26 +335,12 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFileTab">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <widget class="QMenu" name="menuExport">
-     <property name="title">
-      <string>Export</string>
-     </property>
-     <addaction name="actionXML_3"/>
-     <addaction name="actionNessus"/>
-    </widget>
-    <addaction name="menuExport"/>
-   </widget>
    <widget class="QMenu" name="menuAboutTab">
     <property name="title">
      <string>About</string>
     </property>
     <addaction name="aboutProgramTabPress"/>
    </widget>
-   <addaction name="menuFileTab"/>
    <addaction name="menuAboutTab"/>
   </widget>
   <action name="actionXML">
