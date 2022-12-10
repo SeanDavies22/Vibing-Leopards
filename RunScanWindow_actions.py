@@ -1,10 +1,9 @@
 # Author: Nicholas Natale, Casey Staples
 # Created: 11/2/22
-# Edited: 11/28/22
+# Edited: 12/10/22
 
-# This file is an action handler for the Run Analysis window of the
-# Cost Benefit Analysis Tool.
-
+# This file contains action handler code for the 
+# Run Analysis window of the Cost Benefit Analysis Tool.
 
 from RunScanWindow import Ui_RunScanWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -23,14 +22,21 @@ class RunScanGUI(QtWidgets.QMainWindow):
     def __init__(self, filePath, bussiness_size, business_type, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Setup the UI for the Run Analysis window
+        # Initialize class variables
         self.filePath = filePath
         self.business_size = 0
         self.business_type = 0
         self.total_cost = 0
         self.file_extension = os.path.splitext(self.filePath)[1]
+        
+        # Set up the UI for the window
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
+
+        # Make Tab a shortcut to go down a row
+        self.grabShortcut = QtWidgets.QShortcut(
+            QtGui.QKeySequence("Tab"), self)
+        self.grabShortcut.activated.connect(self.move_down_row)
 
         if (self.file_extension == '.xlsx'):
             self.load_saved_table(self.ui.dataTable, self.filePath)
@@ -52,15 +58,18 @@ class RunScanGUI(QtWidgets.QMainWindow):
             self.cve_id_table_cell_pressed)
         self.ui.actionSave.triggered.connect(self.exporter)
 
-    # allow the column to be edited by user
-
-    def cve_id_table_edit_comment(self):
+    # Allow the 'Comments'  column to be edited by user
+    def move_down_row(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
             column = cell.column()
-            if (column == 4):
-                self.ui.dataTable.editItem(
-                    self.ui.dataTable.item(cell.row(), cell.column()))
+            row = cell.row() + 1
+            self.ui.dataTable.setCurrentCell(row, column)
 
+            if (column == 6):
+                self.ui.dataTable.editItem(
+                    self.ui.dataTable.item(row, column))
+
+    # Action handling for clickable columns ('CVE ID' and 'Comments')
     def cve_id_table_cell_pressed(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
             column = cell.column()
@@ -70,6 +79,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 rate = self.ui.dataTable.item(row, 1).text()
                 hours = self.ui.dataTable.item(row, 2).text()
                 severity = self.ui.dataTable.item(row, 3).text()
+
                 if severity == 'H':
                     severity_full_text = "High"
                 elif severity == "M":
@@ -77,22 +87,15 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 elif severity == "L":
                     severity_full_text = "Low"
 
-                num_hours = float(hours)
-                num_rate = float(rate)
-               # business_size = int(self.business_size)
-               # business_type = int(self.business_type)
-                print("inside cve_id_table_cell_pressed")
-                print(self.business_size)
-                print(self.business_type)
                 total_cost = round(
-                    (num_hours * num_rate * self.business_size * self.business_type), 2)
+                    (float(hours) * float(rate) * self.business_size * self.business_type), 2)
 
                 self.show_info_pop_up("The pay rate for this vulnerability is: $" + str(rate) + " per hour." +
                                       "\n\nThe engineering hours required to fix this: " + str(hours) + " hrs." +
                                       "\n\nThe total cost for fixing this vulnerability is: $" + str(total_cost) +
                                       "\n\nThe severity of this vulnerability is: " + str(severity_full_text) + ".", cve_id=cve_id)
 
-            # action handler for double clicking on the comments column
+            # Action handler for double clicking on the comments column
             elif (column == 6):
                 row = cell.row()
                 self.ui.dataTable.editItem(self.ui.dataTable.item(row, column))
@@ -231,11 +234,8 @@ class RunScanGUI(QtWidgets.QMainWindow):
                     self.total_cost = dataframe.iat[row, col + 1]
                     # Bussiness_size info
                     self.business_size = dataframe.iat[row, col + 3]
-                    print("inside load_saved_table")
-                    print(self.business_size)
                     # Bussiness_type info
                     self.business_type = dataframe.iat[row, col + 5]
-                    print(self.business_type)
                     end_loop = True
 
                 if not end_loop:
@@ -244,8 +244,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
             if end_loop:
                 break  # break out of loop so we don't print total_info and business_info to table
 
-    # populate the table with matches from nesssus file
-
+    # Populate the table with matches from nesssus file
     def populate_new_table(self, table, filepath):
         cve_id_nessus = []
         cve_id_nessus = self.parse_xml(filepath)
@@ -260,15 +259,14 @@ class RunScanGUI(QtWidgets.QMainWindow):
             if db_handler.check_cve_id(cve):
                 vuln_list.append(VulnInfo(cve))
 
-        # set row count to the number of vulns found
+        # Set row count to the number of vulns found
         table.setRowCount(vuln_list.__len__())
 
         if (len(vuln_list) == 0):
             self.show_error_pop_up(
                 "Source file has no elements.")
 
-        # populate the table with the vuln info
-        # for each vuln in the vuln list
+        # Populate the table with the vuln info for each vuln in the vuln list.
         # Each item has to be a str for it to work
         for vuln in vuln_list:
             table.setItem(
@@ -326,7 +324,6 @@ class RunScanGUI(QtWidgets.QMainWindow):
     def get_total_cost(self):
         temp_sum = 0
         try:
-
             for row in range(self.ui.dataTable.rowCount()):
                 temp_sum += float(self.ui.dataTable.item(row, 1).text()) * \
                     float(self.ui.dataTable.item(row, 2).text())

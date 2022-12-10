@@ -1,17 +1,16 @@
-# Author: Nicholas Natale
+# Author: Nicholas Natale, Casey Staples
 # Created: 11/1/22
-# Edited: 11/28/22
+# Edited: 12/10/22
 
-# This program will contain all of the code to add functionality to the
-# designed GUI, so that way new iterations of the GUI will not remove old working
-# GUI functionality.
+# This file contains all code to add functionality to the designed GUI,
+# so new iterations of the GUI will not remove old working
+# functional code.
 
 from MainWindow import Ui_MainWindow
 from RunScanWindow_actions import RunScanGUI
 from PyQt5 import QtCore, QtGui, QtWidgets
 from os import path
 import xml.etree.ElementTree as ET
-
 
 class MainGUI(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
@@ -29,10 +28,9 @@ class MainGUI(QtWidgets.QMainWindow):
         self.filePath = None
         self.businessSize = 0
         self.businessType = 0
-
         self.setWindowIcon(QtGui.QIcon('vl_img.jpg'))
 
-        # Action handing linking to the appropriate methods
+        # Action handle linking to the appropriate methods
         self.ui.inputFileButton.clicked.connect(
             self.input_file_button_action_handling)
         self.ui.runScanButton.clicked.connect(
@@ -75,7 +73,7 @@ class MainGUI(QtWidgets.QMainWindow):
                 "File is not able to be read, does not exist or no file was selected. Please choose another file to continue. ")
 
         # Sets the label next to the inputFileButton to the chosen file path.
-        # Label Will stay set to "" if the error conditions are met.
+        # Label will stay set to "" if the error conditions are met.
         self.ui.fileNameLabel.setText(self.filePath)
 
     def run_scan_button_action_handling(self):
@@ -89,8 +87,6 @@ class MainGUI(QtWidgets.QMainWindow):
             self.rsg = RunScanGUI(
                 self.filePath, self.businessSize, self.businessType)
             self.rsg.show_gui()
-            #table = self.rsg.ui.dataTable
-            # table.show()
 
         elif (self.filePath == None):
             self.show_error_pop_up(
@@ -162,7 +158,7 @@ class MainGUI(QtWidgets.QMainWindow):
         msg.setIcon(QtWidgets.QMessageBox.Critical)
         x = msg.exec_()
 
-    # displays a information pop up with given text as the first parameter.
+    # Displays a information pop up with given text as the first parameter.
     def show_info_pop_up(self, text):
         msg = QtWidgets.QMessageBox()
         msg.setText(text)
