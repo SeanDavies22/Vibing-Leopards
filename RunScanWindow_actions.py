@@ -32,6 +32,12 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
 
+        # Make Tab a shortcut to go down a row
+        self.grabShortcut = QtWidgets.QShortcut(
+            QtGui.QKeySequence("Tab"), self)
+        self.grabShortcut.activated.connect(self.move_down_row)
+
+        # Setup the table
         if (self.file_extension == '.xlsx'):
             self.load_saved_table(self.ui.dataTable, self.filePath)
         else:
@@ -52,15 +58,21 @@ class RunScanGUI(QtWidgets.QMainWindow):
             self.cve_id_table_cell_pressed)
         self.ui.actionSave.triggered.connect(self.exporter)
 
-    # allow the column to be edited by user
-
-    def cve_id_table_edit_comment(self):
+    # This function allows the user to use tab to move down a row.
+    def move_down_row(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
             column = cell.column()
-            if (column == 4):
-                self.ui.dataTable.editItem(
-                    self.ui.dataTable.item(cell.row(), cell.column()))
+            row = cell.row() + 1
+            self.ui.dataTable.setCurrentCell(row, column)
 
+            # If column is comments, let the user edit the cell.
+            if (column == 6):
+                self.ui.dataTable.editItem(
+                    self.ui.dataTable.item(row, column))
+
+    # This function handles the cv_id table cell being pressed.
+    # Shows a popup box with that cv_id vulnerability information
+    # If the cell being clicked is the cv_id.
     def cve_id_table_cell_pressed(self):
         for cell in self.ui.dataTable.selectionModel().selectedIndexes():
             column = cell.column()
@@ -79,8 +91,6 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
                 num_hours = float(hours)
                 num_rate = float(rate)
-               # business_size = int(self.business_size)
-               # business_type = int(self.business_type)
                 print("inside cve_id_table_cell_pressed")
                 print(self.business_size)
                 print(self.business_type)
@@ -92,7 +102,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
                                       "\n\nThe total cost for fixing this vulnerability is: $" + str(total_cost) +
                                       "\n\nThe severity of this vulnerability is: " + str(severity_full_text) + ".", cve_id=cve_id)
 
-            # action handler for double clicking on the comments column
+            # If column is comments, let the user edit the cell.
             elif (column == 6):
                 row = cell.row()
                 self.ui.dataTable.editItem(self.ui.dataTable.item(row, column))
@@ -109,7 +119,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
             work_sheet = work_book.add_worksheet()
             bold = work_book.add_format({'bold': True})
 
-            # TODO: Change this to a switch statement for easier readability. (Casey)
+            # Write the headers and set the column widths.
             for col in range(self.ui.dataTable.columnCount()):
                 if self.ui.dataTable.horizontalHeaderItem(col).text() == "Comments":
                     work_sheet.set_column(col, col, 50)
@@ -160,10 +170,10 @@ class RunScanGUI(QtWidgets.QMainWindow):
                         else:
                             work_sheet.write(row + 1, col, text)
                     except AttributeError:
-                        # If there is an Error, just move on instead of crashing.
+                        # If there is an Error, just move on instead of crashing the whole program.
                         pass
 
-            # Write the rest of the info on the last row.
+            # Write the rest of the info on the row after the table.
             # Most of this will be used to repopulate the table on reload.
             row = self.ui.dataTable.rowCount() + 1
             col = 0
