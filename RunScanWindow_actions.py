@@ -51,7 +51,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
         # Setup the analysis labels.
         self.ui.totalCostLabel.setText(
-            "The total cost for all vulnerabilities is: $" + str(self.total_cost))
+            "The total cost for all vulnerabilities is: $" + str(format(self.total_cost, ".2f")))
 
         # Action handling methods.
         self.ui.dataTable.cellDoubleClicked.connect(
@@ -87,8 +87,8 @@ class RunScanGUI(QtWidgets.QMainWindow):
                 elif severity == "L":
                     severity_full_text = "Low"
 
-                total_cost = round(
-                    (float(hours) * float(rate) * self.business_size * self.business_type), 2)
+                total_cost = format(
+                    (float(hours) * float(rate) * self.business_size * self.business_type), ".2f")
 
                 self.show_info_pop_up("The pay rate for this vulnerability is: $" + str(rate) + " per hour." +
                                       "\n\nThe engineering hours required to fix this: " + str(hours) + " hrs." +

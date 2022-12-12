@@ -78,7 +78,6 @@ class MainGUI(QtWidgets.QMainWindow):
 
     def run_scan_button_action_handling(self):
         file_extension = ""
-
         if self.filePath:
             # split file name to get extension for excel import
             file_extension = path.splitext(self.filePath)[1]
@@ -140,21 +139,17 @@ class MainGUI(QtWidgets.QMainWindow):
 
         self.show_info_pop_up(aboutProgramText)
 
+    # Action handling for the radio buttons.
     def small_business_radio_button_action_handling(self):
         self.businessSize = 1
-
     def medium_business_radio_button_action_handling(self):
         self.businessSize = 2
-
     def large_business_radio_button_action_handling(self):
         self.businessSize = 3
-
     def small_home_office_business_action_handling(self):
         self.businessType = 1
-
     def corporate_office_business_action_handling(self):
         self.businessType = 2
-
     def federal_office_business_action_handling(self):
         self.businessType = 3
 
@@ -179,6 +174,7 @@ class MainGUI(QtWidgets.QMainWindow):
 # called directly, not imported.
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
+    app.setStyle("Windows")
     mainGUI = MainGUI()
     mainGUI.show()
     app.exec_()
