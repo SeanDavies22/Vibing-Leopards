@@ -1,6 +1,6 @@
 # Author: Nicholas Natale, Casey Staples
 # Created: 11/1/22
-# Edited: 12/10/22
+# Edited: 12/11/22
 
 # This file contains all code to add functionality to the designed GUI,
 # so new iterations of the GUI will not remove old working
@@ -8,7 +8,7 @@
 
 from MainWindow import Ui_MainWindow
 from RunScanWindow_actions import RunScanGUI
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets
 from os import path
 import xml.etree.ElementTree as ET
 
@@ -86,8 +86,7 @@ class MainGUI(QtWidgets.QMainWindow):
         if (file_extension == ".xlsx"):
             self.rsg = RunScanGUI(
                 self.filePath, self.businessSize, self.businessType)
-            self.rsg.show_gui()
-
+            self.rsg.show()
         elif (self.filePath == None):
             self.show_error_pop_up(
                 "No input file selected. Please select an input file.")
@@ -103,19 +102,28 @@ class MainGUI(QtWidgets.QMainWindow):
         elif ((self.filePath != None) and (self.businessSize > 0) and (self.businessType > 0) and (self.check_xml_parsing(self.filePath) == True)):
             self.rsg = RunScanGUI(
                 self.filePath, self.businessSize, self.businessType)
-            self.rsg.show_gui()
-            #table = self.rsg.ui.dataTable
-            # table.show()
+            self.rsg.show()
 
+    # Checks if the input file is parseable and if it has any CVE elements in it. 
     def check_xml_parsing(self, filePath):
-        file_parseable = True
-        try:
-            file = open(filePath, 'r')
-            tree = ET.ElementTree(file=file)
-        except (ET.ParseError, TypeError) as err:
-            file_parseable = False
+        file = open(filePath, "r")
+        cve_id_nessus = []
 
-        return file_parseable
+        # Create parsing tree to for scanning Nessus file.
+        try:
+            tree = ET.ElementTree(file=file)
+            root = tree.getroot()
+            for child in root.iter('cve'):
+                cve_id_nessus.append(child.text)
+        except ET.ParseError:
+            return False
+
+        # Add the cve_ids found in the source file to a list.
+        # Return the list.
+        if (len(cve_id_nessus) == 0):
+            return False
+        else:
+            return True
 
     # Action handling methods
     def about_program_action_handling(self):

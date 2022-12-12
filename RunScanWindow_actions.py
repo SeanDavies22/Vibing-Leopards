@@ -1,6 +1,6 @@
 # Author: Nicholas Natale, Casey Staples
 # Created: 11/2/22
-# Edited: 12/10/22
+# Edited: 12/11/22
 
 # This file contains action handler code for the 
 # Run Analysis window of the Cost Benefit Analysis Tool.
@@ -14,12 +14,12 @@ import os
 import sys
 import xlsxwriter
 import pandas as pd
-import math
-sys.path.append(os.getcwd())
+
+#sys.path.append(os.getcwd())
 
 
 class RunScanGUI(QtWidgets.QMainWindow):
-    def __init__(self, filePath, bussiness_size, business_type, *args, **kwargs):
+    def __init__(self, filePath, business_size, business_type, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Initialize class variables
@@ -33,16 +33,16 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.ui = Ui_RunScanWindow()
         self.ui.setupUi(self)
 
-        # Make Tab a shortcut to go down a row
+        # Make 'tab' a shortcut to go down a row
         self.grabShortcut = QtWidgets.QShortcut(
             QtGui.QKeySequence("Tab"), self)
         self.grabShortcut.activated.connect(self.move_down_row)
 
         if (self.file_extension == '.xlsx'):
             self.load_saved_table(self.ui.dataTable, self.filePath)
-        else:
+        elif (self.parse_xml(self.filePath)):
             self.populate_new_table(self.ui.dataTable, self.filePath)
-            self.business_size = bussiness_size
+            self.business_size = business_size
             self.business_type = business_type
             self.total_cost = self.get_total_cost()
 
@@ -112,7 +112,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
             work_sheet = work_book.add_worksheet()
             bold = work_book.add_format({'bold': True})
 
-            # TODO: Change this to a switch statement for easier readability. (Casey)
+            # Change this to a switch statement for easier readability.
             for col in range(self.ui.dataTable.columnCount()):
                 if self.ui.dataTable.horizontalHeaderItem(col).text() == "Comments":
                     work_sheet.set_column(col, col, 50)
@@ -181,13 +181,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
             work_sheet.write(row, col, "business type", bold)
             col += 1
             work_sheet.write(row, col, int(self.business_type))
-
-        work_book.close()
-
-    def show_gui(self):
-        self.rsg = RunScanGUI(
-            self.filePath, self.business_size, self.business_type)
-        self.rsg.show()
+            work_book.close()
 
     def hide_gui(self):
         self.rsg = RunScanGUI
@@ -232,7 +226,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
 
                     # Actual value is always one to the right of "Total Cost" cell
                     self.total_cost = dataframe.iat[row, col + 1]
-                    # Bussiness_size info
+                    # business_size info
                     self.business_size = dataframe.iat[row, col + 3]
                     # Bussiness_type info
                     self.business_type = dataframe.iat[row, col + 5]
@@ -253,7 +247,7 @@ class RunScanGUI(QtWidgets.QMainWindow):
         vuln_list = []
         row_counter = 0
 
-        # create the list of vuln objects for each cve
+        # Create the list of vuln objects for each cve
         # id that is a match from the nessus file
         for cve in cve_id_nessus:
             if db_handler.check_cve_id(cve):
