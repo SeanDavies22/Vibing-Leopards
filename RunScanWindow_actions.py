@@ -1,6 +1,6 @@
 # Author: Nicholas Natale, Casey Staples
 # Created: 11/2/22
-# Edited: 12/11/22
+# Edited: 12/13/22
 
 # This file contains action handler code for the 
 # Run Analysis window of the Cost Benefit Analysis Tool.
@@ -15,8 +15,6 @@ import sys
 import xlsxwriter
 import pandas as pd
 
-#sys.path.append(os.getcwd())
-
 
 class RunScanGUI(QtWidgets.QMainWindow):
     def __init__(self, filePath, business_size, business_type, *args, **kwargs):
@@ -28,6 +26,8 @@ class RunScanGUI(QtWidgets.QMainWindow):
         self.business_type = 0
         self.total_cost = 0
         self.file_extension = os.path.splitext(self.filePath)[1]
+
+        self.setWindowIcon(QtGui.QIcon('vl_img.ico'))
         
         # Set up the UI for the window
         self.ui = Ui_RunScanWindow()

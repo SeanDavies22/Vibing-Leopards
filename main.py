@@ -1,6 +1,6 @@
 # Author: Nicholas Natale, Casey Staples
 # Created: 11/1/22
-# Edited: 12/11/22
+# Edited: 12/13/22
 
 # This file contains all code to add functionality to the designed GUI,
 # so new iterations of the GUI will not remove old working
@@ -28,7 +28,7 @@ class MainGUI(QtWidgets.QMainWindow):
         self.filePath = None
         self.businessSize = 0
         self.businessType = 0
-        self.setWindowIcon(QtGui.QIcon('vl_img.jpg'))
+        self.setWindowIcon(QtGui.QIcon('vl_img.ico'))
 
         # Action handle linking to the appropriate methods
         self.ui.inputFileButton.clicked.connect(
