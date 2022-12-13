@@ -1,2 +1,0 @@
-# Vibing-Leopards
-
