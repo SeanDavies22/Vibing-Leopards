@@ -1,17 +1,44 @@
-## Purpose is to work on being able to re-size the run scan window
+## About The Cost-Benefit Analysis Tool
 
-- Run scan window can now be resized by the user and the ratio will stay (mostly) the same
+- The Cost-Benefit Analysis Tool is a Python based GUI utility for scanning system vulnerabilities and providing results to assist in cost and benefit analysis for vulnerability resolution.
 
-- Might change some of the font sizes, on my 32" full screen, output doesn't look great, but there isn't much to fill out empty space
+- This tool was desgined to work in tandem with the Nessus Essentials vulnerability scanner, as it parses .nessus export files.  
 
-- Looks rather good on a normal 1080p screen
+## Dependencies
 
-- Added save button for user to save output table of vuln matches to a ms excel file
+- The Cost-Benefit Analysis Tool requires multiple dependencies:
+- 1) PyQt5
+- 2) PyQt5-Designer
+- 3) SQLite3
+- 4) PyInstaller
+- 5) PyUic5
+- 6) Xlsxwriter
+- 7) Xml.etree.ElementTree
+- 8) pip3
 
-- Format for save output might be added later
-
-- This now requires an extra python module to work, XlsxWriter. This module uses only standard libary
-
+## Getting Started
+- Make sure you have all of the Python dependencies installed.
 ```
-pip install XlsxWriter
+pip install <above_dependency>
+```
+- Obtain a Nessus vulnerability export scan file ( *.nessus )
+- Download the release .zip file for your operating system.
+- Unzip the program where desireable.
+
+## Running the Program
+- Run the executable, either by clicking on the file, or from the terminal/command prompt.
+- For Windows Command Prompt:
+```
+cd <path_to_executeable>
+start CostBenefitAnalysisTool-Windows.exe
+```
+- For macOS terminal:
+```
+cd <path_to_executeable>
+./CostBenefitAnalysisTool-MacSilicon
+```
+- For Linux terminal:
+```
+cd <path_to_executeable>
+./CostBenefitAnalysisTool-Linux
 ```
